@@ -3,7 +3,7 @@
  */
 
 var React = require('react'),
-	Hello = require('../common/Hello');
+	TaggedInput = require('../common/TaggedInput');
 
 var Page = React.createClass({
 
@@ -11,10 +11,10 @@ var Page = React.createClass({
 
 		return (
 			<div>
-					<Hello messageText="Index Page" />
+					<TaggedInput />
 			</div>
 		);
-		
+
 	}
 
 });
