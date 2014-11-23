@@ -29,8 +29,6 @@ var inputFieldStyles = {
   'outline': 'none'
 };
 
-
-
 var DefaultTagComponent = React.createClass({
 
   render: function() {
@@ -50,12 +48,14 @@ var TaggedInput = React.createClass({
 
   propTypes: {
     onAddTag: React.PropTypes.func,
-    onRemoveTag: React.PropTypes.func
+    onRemoveTag: React.PropTypes.func,
+    unique: React.PropTypes.bool
   },
 
   getInitialState: function () {
     return {
       tags: this.props.tags || [],
+      unique: this.props.unique || true,
       currentInput: null
     };
   },
@@ -64,13 +64,13 @@ var TaggedInput = React.createClass({
     var self = this,
       s = self.state,
       p = self.props,
-      tags = [],
+      tagComponents = [],
       i;
 
-    var TagComponent = p.tagComponent || DefaultTagComponent;
+    var TagComponent = DefaultTagComponent;
 
     for (i = 0 ; i < s.tags.length; i++) {
-      tags.push(<TagComponent item={s.tags[i]} />);
+      tagComponents.push(<TagComponent item={s.tags[i]} />);
     }
 
     var input = (
@@ -86,8 +86,9 @@ var TaggedInput = React.createClass({
 
     return (
       <div className="tagged-input-wrapper"
+        onClick={self._handleClickOnWrapper}
         style={wrapperStyles}>
-        {tags}
+        {tagComponents}
         {input}
       </div>
     );
@@ -109,7 +110,6 @@ var TaggedInput = React.createClass({
         }
         break;
     }
-
   },
 
   _handleKeyDown: function (e) {
@@ -128,25 +128,43 @@ var TaggedInput = React.createClass({
         }
         break;
     }
-
   },
 
   _handleChange: function (e) {
     var self = this,
       s = self.state,
+      p = this.props,
       value = e.target.value;
-      lastChar = value.charAt(value.length-1);
+      lastChar = value.charAt(value.length - 1),
+      tagText = value.substring(0, value.length - 1);
 
     if (delimiters[lastChar]) {
-      s.tags.push(e.target.value.trim());
-      this.setState({
-        currentInput: ''
-      });
+      if (s.unique) {
+        if (self._isUnique(tagText)) {
+          s.tags.push(tagText);
+          this.setState({
+            currentInput: ''
+          });
+        }
+      } else {
+        s.tags.push(tagText);
+        this.setState({
+          currentInput: ''
+        });
+      }
     } else {
       this.setState({
         currentInput: e.target.value
       });
     }
+  },
+
+  _isUnique: function (tagText) {
+    return (this.state.tags.indexOf(tagText) === -1);
+  },
+
+  _handleClickOnWrapper: function (e) {
+    this.refs.input.getDOMNode().focus();
   }
 
 });
