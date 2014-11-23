@@ -36,7 +36,7 @@ var DefaultTagComponent = React.createClass({
       p = self.props;
 
     return (
-      <div style={tagItemStyles}>
+      <div className="tag" style={tagItemStyles}>
         {p.item}
       </div>
     );
@@ -175,6 +175,10 @@ var TaggedInput = React.createClass({
         }
       }
     }
+  },
+
+  getTags: function () {
+    return this.state.tags;
   }
 
 });
