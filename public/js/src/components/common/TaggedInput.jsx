@@ -11,6 +11,12 @@ var KEY_CODES = {
   BACKSPACE: 8
 };
 
+var tagItemStyles = {
+  'display': 'inline-block',
+  'marginLeft': '2px',
+  'marginRight': '2px'
+};
+
 var DefaultTagComponent = React.createClass({
 
   render: function() {
@@ -18,7 +24,7 @@ var DefaultTagComponent = React.createClass({
       p = self.props;
 
     return (
-      <div className="tagged-input-wrapper">
+      <div style={tagItemStyles}>
         {p.item}
       </div>
     );
@@ -57,6 +63,7 @@ var TaggedInput = React.createClass({
       <input type="text"
         ref='input'
         onKeyUp={this._handleKeyUp}
+        onKeyDown={this._handleKeyDown}
         onChange={this._handleChange}
         value={s.currentInput}>
       </input>
@@ -80,7 +87,21 @@ var TaggedInput = React.createClass({
           currentInput: ''
         });
         break;
+    }
 
+  },
+
+  _handleKeyDown: function (e) {
+    var s = this.state,
+      poppedValue;
+
+    switch (e.keyCode) {
+      case KEY_CODES.BACKSPACE:
+        if (!e.target.value || e.target.value.length < 0) {
+          poppedValue = s.tags.pop();
+          this.forceUpdate();
+        }
+        break;
     }
 
   },
