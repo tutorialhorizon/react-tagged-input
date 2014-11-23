@@ -179,6 +179,22 @@ var TaggedInput = React.createClass({
 
   getTags: function () {
     return this.state.tags;
+  },
+
+  getEnteredText: function () {
+    return this.state.currentInput;
+  },
+
+  getAllValues: function () {
+    var self = this,
+      s = this.state,
+      p = this.props;
+
+    if (s.currentInput && s.currentInput.length > 0) {
+      return (this.state.tags.contact(s.currentInput));
+    } else {
+      return this.state.tags;
+    }
   }
 
 });
