@@ -95,33 +95,29 @@ var TaggedInput = React.createClass({
   },
 
   _handleKeyUp: function (e) {
-    var s = this.state,
-      p = this.props,
+    var self = this,
+      s = self.state,
+      p = self.props,
       enteredValue = e.target.value;
 
     switch (e.keyCode) {
       case KEY_CODES.ENTER:
-        s.tags.push(enteredValue);
-        this.setState({
-          currentInput: ''
-        });
-        if (p.onAddTag) {
-          p.onAddTag(enteredValue);
-        }
+        self._validateAndTag(enteredValue);
         break;
     }
   },
 
   _handleKeyDown: function (e) {
-    var s = this.state,
-      p = this.props,
+    var self = this,
+      s = self.state,
+      p = self.props,
       poppedValue;
 
     switch (e.keyCode) {
       case KEY_CODES.BACKSPACE:
         if (!e.target.value || e.target.value.length < 0) {
           poppedValue = s.tags.pop();
-          this.forceUpdate();
+          self.forceUpdate();
           if (p.onRemoveTag) {
             p.onRemoveTag(poppedValue);
           }
@@ -139,19 +135,7 @@ var TaggedInput = React.createClass({
       tagText = value.substring(0, value.length - 1);
 
     if (delimiters[lastChar]) {
-      if (s.unique) {
-        if (self._isUnique(tagText)) {
-          s.tags.push(tagText);
-          this.setState({
-            currentInput: ''
-          });
-        }
-      } else {
-        s.tags.push(tagText);
-        this.setState({
-          currentInput: ''
-        });
-      }
+      self._validateAndTag(tagText);
     } else {
       this.setState({
         currentInput: e.target.value
@@ -165,6 +149,30 @@ var TaggedInput = React.createClass({
 
   _handleClickOnWrapper: function (e) {
     this.refs.input.getDOMNode().focus();
+  },
+
+  _validateAndTag: function (tagText) {
+    var self = this,
+      s = self.state,
+      p = self.props;
+
+    if (tagText && tagText.length > 0) {
+      if (s.unique) {
+        if (self._isUnique(tagText)) {
+          s.tags.push(tagText);
+          self.setState({currentInput: ''});
+          if (p.onAddTag) {
+            p.onAddTag(enteredValue);
+          }
+        }
+      } else {
+        s.tags.push(tagText);
+        self.setState({currentInput: ''});
+        if (p.onAddTag) {
+          p.onAddTag(enteredValue);
+        }
+      }
+    }
   }
 
 });
