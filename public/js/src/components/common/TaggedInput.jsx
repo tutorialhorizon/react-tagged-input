@@ -78,14 +78,18 @@ var TaggedInput = React.createClass({
   },
 
   _handleKeyUp: function (e) {
-    var s = this.state;
+    var s = this.state,
+      enteredValue = e.target.value;
 
     switch (e.keyCode) {
       case KEY_CODES.ENTER:
-        s.tags.push(e.target.value.trim());
+        s.tags.push(enteredValue);
         this.setState({
           currentInput: ''
         });
+        if (p.onAddTag) {
+          p.onAddTag(enteredValue);
+        }
         break;
     }
 
@@ -93,6 +97,7 @@ var TaggedInput = React.createClass({
 
   _handleKeyDown: function (e) {
     var s = this.state,
+      p = this.props,
       poppedValue;
 
     switch (e.keyCode) {
@@ -100,6 +105,9 @@ var TaggedInput = React.createClass({
         if (!e.target.value || e.target.value.length < 0) {
           poppedValue = s.tags.pop();
           this.forceUpdate();
+          if (p.onRemoveTag) {
+            p.onRemoveTag(poppedValue);
+          }
         }
         break;
     }
