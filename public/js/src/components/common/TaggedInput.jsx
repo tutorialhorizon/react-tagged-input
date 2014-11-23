@@ -117,7 +117,9 @@ var TaggedInput = React.createClass({
       case KEY_CODES.BACKSPACE:
         if (!e.target.value || e.target.value.length < 0) {
           poppedValue = s.tags.pop();
-          self.forceUpdate();
+          this.setState({
+            currentInput: poppedValue
+          });
           if (p.onRemoveTag) {
             p.onRemoveTag(poppedValue);
           }
