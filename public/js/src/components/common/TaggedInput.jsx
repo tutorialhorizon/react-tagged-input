@@ -11,11 +11,25 @@ var KEY_CODES = {
   BACKSPACE: 8
 };
 
+var wrapperStyles = {
+  'borderWidth': '1px',
+  'borderStyle': 'solid',
+  'borderColor': '#dadada',
+  'padding': '2px'
+};
+
 var tagItemStyles = {
   'display': 'inline-block',
   'marginLeft': '2px',
   'marginRight': '2px'
 };
+
+var inputFieldStyles = {
+  'border':'none',
+  'outline': 'none'
+};
+
+
 
 var DefaultTagComponent = React.createClass({
 
@@ -61,6 +75,7 @@ var TaggedInput = React.createClass({
 
     var input = (
       <input type="text"
+        style={inputFieldStyles}
         ref='input'
         onKeyUp={this._handleKeyUp}
         onKeyDown={this._handleKeyDown}
@@ -70,7 +85,8 @@ var TaggedInput = React.createClass({
     );
 
     return (
-      <div className="tagged-input-wrapper">
+      <div className="tagged-input-wrapper"
+        style={wrapperStyles}>
         {tags}
         {input}
       </div>
@@ -79,6 +95,7 @@ var TaggedInput = React.createClass({
 
   _handleKeyUp: function (e) {
     var s = this.state,
+      p = this.props,
       enteredValue = e.target.value;
 
     switch (e.keyCode) {
