@@ -11,7 +11,7 @@ var Page = React.createClass({
 
 		return (
 			<div>
-					<TaggedInput />
+					<TaggedInput autofocus={true} />
 			</div>
 		);
 

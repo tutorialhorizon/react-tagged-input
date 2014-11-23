@@ -37,7 +37,8 @@ var DefaultTagComponent = React.createClass({
 
     return (
       <div className="tag" style={tagItemStyles}>
-        {p.item}
+        <div className="tag-text">{p.item}</div>
+        <div className="remove">&#10060;</div>
       </div>
     );
   }
@@ -49,7 +50,8 @@ var TaggedInput = React.createClass({
   propTypes: {
     onAddTag: React.PropTypes.func,
     onRemoveTag: React.PropTypes.func,
-    unique: React.PropTypes.bool
+    unique: React.PropTypes.bool,
+    autofocus: React.PropTypes.bool
   },
 
   getInitialState: function () {
@@ -61,10 +63,9 @@ var TaggedInput = React.createClass({
   },
 
   render: function() {
-    var self = this,
-      s = self.state,
-      p = self.props,
-      tagComponents = [],
+    var self = this, s = self.state, p = self.props;
+
+    var tagComponents = [],
       i;
 
     var TagComponent = DefaultTagComponent;
@@ -92,6 +93,14 @@ var TaggedInput = React.createClass({
         {input}
       </div>
     );
+  },
+
+  componentDidMount: function() {
+    var self = this, s = self.state, p = self.props;
+
+    if (p.autofocus) {
+      self.refs.input.getDOMNode().focus();
+    }
   },
 
   _handleKeyUp: function (e) {
@@ -191,7 +200,7 @@ var TaggedInput = React.createClass({
       p = this.props;
 
     if (s.currentInput && s.currentInput.length > 0) {
-      return (this.state.tags.contact(s.currentInput));
+      return (this.state.tags.concat(s.currentInput));
     } else {
       return this.state.tags;
     }
