@@ -4,7 +4,7 @@
 
 var React = require('react');
 
-var delimiters = {' ': 'Space'};
+var delimiters = {' ': 'Space', ',': 'Comma'};
 
 var KEY_CODES = {
   ENTER: 13,
@@ -50,6 +50,7 @@ var TaggedInput = React.createClass({
   propTypes: {
     onAddTag: React.PropTypes.func,
     onRemoveTag: React.PropTypes.func,
+    onEnter: React.PropTypes.func,
     unique: React.PropTypes.bool,
     autofocus: React.PropTypes.bool
   },
@@ -104,15 +105,12 @@ var TaggedInput = React.createClass({
   },
 
   _handleKeyUp: function (e) {
-    var self = this,
-      s = self.state,
-      p = self.props,
-      enteredValue = e.target.value;
+    var self = this, s = self.state, p = self.props;
 
-    switch (e.keyCode) {
-      case KEY_CODES.ENTER:
-        self._validateAndTag(enteredValue);
-        break;
+    var enteredValue = e.target.value;
+
+    if (p.onEnter) {
+      p.onEnter(self.getAllValues());
     }
   },
 
@@ -138,10 +136,9 @@ var TaggedInput = React.createClass({
   },
 
   _handleChange: function (e) {
-    var self = this,
-      s = self.state,
-      p = this.props,
-      value = e.target.value;
+    var self = this, s = self.state, p = self.props;
+
+    var value = e.target.value;
       lastChar = value.charAt(value.length - 1),
       tagText = value.substring(0, value.length - 1);
 
@@ -163,21 +160,19 @@ var TaggedInput = React.createClass({
   },
 
   _validateAndTag: function (tagText) {
-    var self = this,
-      s = self.state,
-      p = self.props;
+    var self = this, s = self.state, p = self.props;
 
     if (tagText && tagText.length > 0) {
       if (s.unique) {
         if (self._isUnique(tagText)) {
-          s.tags.push(tagText);
+          s.tags.push(tagText.trim());
           self.setState({currentInput: ''});
           if (p.onAddTag) {
             p.onAddTag(enteredValue);
           }
         }
       } else {
-        s.tags.push(tagText);
+        s.tags.push(tagText.trim());
         self.setState({currentInput: ''});
         if (p.onAddTag) {
           p.onAddTag(enteredValue);
@@ -195,9 +190,7 @@ var TaggedInput = React.createClass({
   },
 
   getAllValues: function () {
-    var self = this,
-      s = this.state,
-      p = this.props;
+    var self = this, s = this.state, p = this.props;
 
     if (s.currentInput && s.currentInput.length > 0) {
       return (this.state.tags.concat(s.currentInput));
