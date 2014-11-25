@@ -2,8 +2,7 @@
   "name": "React-Webpack-Setup",
   "version": "0.0.1",
   "description": "Enter tags using an input",
-  "scripts": {
-  },
+  "scripts": {},
   "dependencies": {
     "react": "^0.12.1"
   },
@@ -11,6 +10,10 @@
     "grunt": "^0.4.5",
     "grunt-cli": "^0.1.13",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-react": "^0.9.0"
+    "grunt-react": "^0.9.0",
+    "grunt-webpack": "^1.0.8",
+    "jsx-loader": "^0.12.2",
+    "webpack": "^1.4.13",
+    "webpack-dev-server": "^1.6.6"
   }
 }
