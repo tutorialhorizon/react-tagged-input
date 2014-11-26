@@ -38,7 +38,7 @@ var DefaultTagComponent = React.createClass({displayName: 'DefaultTagComponent',
     return (
       React.DOM.div({className: "tag", style: tagItemStyles}, 
         React.DOM.div({className: "tag-text"}, p.item), 
-        React.DOM.div({className: "remove"}, "❌")
+        React.DOM.div({className: "remove"}, '\u274C')
       )
     );
   }
