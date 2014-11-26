@@ -1,19 +1,20 @@
-var path = require('path');
+var path = require('path'),
+  CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 
 module.exports = {
   dev: {
     entry: {
-        index: './grunt/webpack_entries/index.js'
+      index: './examples/index.jsx',
     },
     output: {
-        path: path.join(__dirname,'../public/js/build'),
-        filename: 'bundle-[name].js'
+      path: path.join(__dirname,'../examples'),
+      filename: '[name].js'
     },
     stats: {
-        // Configure the console output
-        colors: true,
-        modules: true,
-        reasons: true
+      // Configure the console output
+      colors: true,
+      modules: true,
+      reasons: true
     },
     module: {
       loaders: [
@@ -21,8 +22,6 @@ module.exports = {
       ]
     },
     progress: true,
-    keepalive: true,
-    watch: true,
-    watchDelay: 3000
+    keepalive: true
   }
 };

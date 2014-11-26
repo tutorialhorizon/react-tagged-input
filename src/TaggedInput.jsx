@@ -38,7 +38,7 @@ var DefaultTagComponent = React.createClass({
     return (
       <div className="tag" style={tagItemStyles}>
         <div className="tag-text">{p.item}</div>
-        <div className="remove">&#10060;</div>
+        <div className="remove">{'\u274C'}</div>
       </div>
     );
   }
@@ -138,7 +138,7 @@ var TaggedInput = React.createClass({
   _handleChange: function (e) {
     var self = this, s = self.state, p = self.props;
 
-    var value = e.target.value,
+    var value = e.target.value;
       lastChar = value.charAt(value.length - 1),
       tagText = value.substring(0, value.length - 1);
 
