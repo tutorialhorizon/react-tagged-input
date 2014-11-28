@@ -52,7 +52,12 @@
 	  TaggedInput = __webpack_require__(1),
 	  mountPoint = document.querySelector('body');
 
-	React.renderComponent( React.createElement(TaggedInput, {autofocus: true}) , mountPoint );
+	React.render(
+	  React.createElement(TaggedInput, {
+	    autofocus: true, 
+	    backspaceDeletesWord: true}
+	  ),
+	  mountPoint );
 
 
 /***/ },
@@ -65,7 +70,7 @@
 
 	var React = __webpack_require__(2);
 
-	var delimiters = {' ': 'Space', ',': 'Comma'};
+	var delimiters = [' ', ','];
 
 	var KEY_CODES = {
 	  ENTER: 13,
@@ -116,7 +121,8 @@
 	    onRemoveTag: React.PropTypes.func,
 	    onEnter: React.PropTypes.func,
 	    unique: React.PropTypes.bool,
-	    autofocus: React.PropTypes.bool
+	    autofocus: React.PropTypes.bool,
+	    backspaceDeletesWord: React.PropTypes.bool
 	  },
 
 	  getInitialState: function () {
@@ -182,7 +188,6 @@
 	      p.onRemoveTag(removedItems[0]);
 	    }
 	    self.forceUpdate();
-
 	  },
 
 	  _handleKeyUp: function (e) {
@@ -190,8 +195,16 @@
 
 	    var enteredValue = e.target.value;
 
-	    if (p.onEnter) {
-	      p.onEnter(self.getAllValues());
+	    switch (e.keyCode) {
+	      case KEY_CODES.ENTER:
+	        s.tags.push(s.currentInput.trim());
+	        self.setState({
+	          currentInput: ''
+	        });
+	        if (p.onEnter) {
+	          p.onEnter(self.getAllValues());
+	        }
+	      break;
 	    }
 	  },
 
@@ -199,14 +212,18 @@
 	    var self = this,
 	      s = self.state,
 	      p = self.props,
-	      poppedValue;
+	      poppedValue,
+	      newCurrentInput;
 
 	    switch (e.keyCode) {
 	      case KEY_CODES.BACKSPACE:
 	        if (!e.target.value || e.target.value.length < 0) {
 	          poppedValue = s.tags.pop();
+
+	          newCurrentInput = p.backspaceDeletesWord ? '': poppedValue;
+
 	          this.setState({
-	            currentInput: poppedValue
+	            currentInput: newCurrentInput
 	          });
 	          if (p.onRemoveTag) {
 	            p.onRemoveTag(poppedValue);
@@ -223,7 +240,7 @@
 	      lastChar = value.charAt(value.length - 1),
 	      tagText = value.substring(0, value.length - 1);
 
-	    if (delimiters[lastChar]) {
+	    if (delimiters.indexOf(lastChar) !== -1) {
 	      self._validateAndTag(tagText);
 	    } else {
 	      this.setState({
