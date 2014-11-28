@@ -36,9 +36,12 @@ var DefaultTagComponent = React.createClass({
       p = self.props;
 
     return (
-      <div className="tag" style={tagItemStyles}>
-        <div className="tag-text">{p.item}</div>
-        <div className="remove">{'\u274C'}</div>
+      <div className='tag' style={tagItemStyles}>
+        <div className='tag-text'>{p.item}</div>
+        <div className='remove'
+          onClick={p.onRemove}>
+          {'\u274C'}
+        </div>
       </div>
     );
   }
@@ -72,11 +75,16 @@ var TaggedInput = React.createClass({
     var TagComponent = DefaultTagComponent;
 
     for (i = 0 ; i < s.tags.length; i++) {
-      tagComponents.push(<TagComponent item={s.tags[i]} />);
+      tagComponents.push(
+        <TagComponent
+          item={s.tags[i]}
+          itemIndex={i}
+          onRemove={self._handleRemoveTag.bind(this, i)}
+        />);
     }
 
     var input = (
-      <input type="text"
+      <input type='text'
         style={inputFieldStyles}
         ref='input'
         onKeyUp={this._handleKeyUp}
@@ -87,7 +95,7 @@ var TaggedInput = React.createClass({
     );
 
     return (
-      <div className="tagged-input-wrapper"
+      <div className='tagged-input-wrapper'
         onClick={self._handleClickOnWrapper}
         style={wrapperStyles}>
         {tagComponents}
@@ -102,6 +110,17 @@ var TaggedInput = React.createClass({
     if (p.autofocus) {
       self.refs.input.getDOMNode().focus();
     }
+  },
+
+  _handleRemoveTag: function (index) {
+    var self = this, s = self.state, p = self.props;
+
+    var removedItems = s.tags.splice(index, 1);
+
+    if (p.onRemoveTag) {
+      p.onRemoveTag(removedItems[0]);
+    }
+    self.forceUpdate();
   },
 
   _handleKeyUp: function (e) {
