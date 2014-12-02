@@ -77,24 +77,6 @@
 	  BACKSPACE: 8
 	};
 
-	var wrapperStyles = {
-	  'borderWidth': '1px',
-	  'borderStyle': 'solid',
-	  'borderColor': '#dadada',
-	  'padding': '2px'
-	};
-
-	var tagItemStyles = {
-	  'display': 'inline-block',
-	  'marginLeft': '2px',
-	  'marginRight': '2px'
-	};
-
-	var inputFieldStyles = {
-	  'border':'none',
-	  'outline': 'none'
-	};
-
 	var DefaultTagComponent = React.createClass({displayName: 'DefaultTagComponent',
 
 	  render: function() {
@@ -102,7 +84,7 @@
 	      p = self.props;
 
 	    return (
-	      React.DOM.div({className: "tag", style: tagItemStyles}, 
+	      React.DOM.div({className: "tag"}, 
 	        React.DOM.div({className: "tag-text"}, p.item), 
 	        React.DOM.div({className: "remove", 
 	          onClick: p.onRemove}, 
@@ -137,7 +119,12 @@
 	    var self = this, s = self.state, p = self.props;
 
 	    var tagComponents = [],
+	      classes = 'tagged-input-wrapper',
 	      i;
+
+	    if (p.classes) {
+	      classes += ' ' + p.classes;
+	    }
 
 	    var TagComponent = DefaultTagComponent;
 
@@ -147,12 +134,13 @@
 	          item: s.tags[i], 
 	          itemIndex: i, 
 	          onRemove: self._handleRemoveTag.bind(this, i)}
-	        ));
+	        )
+	      );
 	    }
 
 	    var input = (
 	      React.DOM.input({type: "text", 
-	        style: inputFieldStyles, 
+	        className: "tagged-input", 
 	        ref: "input", 
 	        onKeyUp: this._handleKeyUp, 
 	        onKeyDown: this._handleKeyDown, 
@@ -162,9 +150,8 @@
 	    );
 
 	    return (
-	      React.DOM.div({className: "tagged-input-wrapper", 
-	        onClick: self._handleClickOnWrapper, 
-	        style: wrapperStyles}, 
+	      React.DOM.div({className: classes, 
+	        onClick: self._handleClickOnWrapper}, 
 	        tagComponents, 
 	        input
 	      )

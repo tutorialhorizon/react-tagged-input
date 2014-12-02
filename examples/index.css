@@ -1,0 +1,41 @@
+.tagged-input-wrapper {
+  border-width: 1px;
+  border-style: solid;
+  border-color: #dadada;
+  padding: 2px;
+}
+
+.tagged-input-wrapper .tagged-input {
+  border: none;
+  outline: none;
+}
+
+.tagged-input-wrapper .tag .tag-text {
+  padding-left: 5px;
+}
+
+.tagged-input-wrapper .tag {
+  display: inline-block;
+  background-color: #E9E9E9;
+  padding: 2px 0px 2px 2px;
+  border-radius: 2px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.tagged-input-wrapper .tag .remove {
+  color: #a0a0a0;
+  padding: 0px 4px;
+  font-size: 75%;
+  line-height: 100%;
+  cursor: pointer;
+}
+
+.tagged-input-wrapper .tag .remove:hover {
+  color: red;
+}
+
+.tagged-input-wrapper .tag .remove,
+.tagged-input-wrapper .tag .tag-text {
+  display: inline-block;
+}
