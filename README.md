@@ -1,10 +1,10 @@
 # react-tagged-input
 
-Converted your ordinary text fields with a component that lets you render tags for each input word.
+Convert your ordinary text fields with a component that lets you render tags for each input word.
 
-See the examples folder/index.jsx for usage.
+See the examples folder/index.jsx and some the component proptypes in the src/ for usage.
 
-More docs and feature are on the way.
+More docs and features are on the way.
 
 ## License
 
