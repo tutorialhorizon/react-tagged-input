@@ -131,12 +131,15 @@ var TaggedInput = React.createClass({
 
     switch (e.keyCode) {
       case KEY_CODES.ENTER:
-        s.tags.push(s.currentInput.trim());
-        self.setState({
-          currentInput: ''
-        });
-        if (p.onEnter) {
-          p.onEnter(self.getAllValues());
+        if (s.currentInput) {
+          s.tags.push(s.currentInput.trim());
+          self.setState({
+            currentInput: ''
+          }, function () {
+            if (p.onEnter) {
+              p.onEnter(e, s.tags);
+            }
+          });
         }
       break;
     }
@@ -170,7 +173,7 @@ var TaggedInput = React.createClass({
   _handleChange: function (e) {
     var self = this, s = self.state, p = self.props;
 
-    var value = e.target.value;
+    var value = e.target.value,
       lastChar = value.charAt(value.length - 1),
       tagText = value.substring(0, value.length - 1);
 

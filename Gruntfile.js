@@ -12,6 +12,6 @@ module.exports = function (grunt) {
 
   grunt.registerTask('dist', ['react:dist']);
   grunt.registerTask('examples', ['react:examples']);
-  grunt.registerTask('dev', ['watch']);
+  grunt.registerTask('dev', ['examples', 'watch']);
 
 };
