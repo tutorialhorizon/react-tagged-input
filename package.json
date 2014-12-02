@@ -1,8 +1,15 @@
 {
-  "name": "React-Webpack-Setup",
+  "name": "react-tagged-input",
+  "author": "Tutorialhorizon team",
   "version": "0.0.1",
-  "description": "Enter tags using an input",
+  "description": "A custom input field to enter tags",
   "scripts": {},
+  "keywords": [
+    "react",
+    "react-component",
+    "react input tagging",
+    "react input tags"
+  ],
   "dependencies": {
     "react": "^0.12.1"
   },
