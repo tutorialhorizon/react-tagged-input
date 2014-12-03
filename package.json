@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "description": "A custom input field to enter tags",
   "scripts": {},
-  "main": ".src/TaggedInput.jsx",
+  "main": "./src/TaggedInput.jsx",
   "keywords": [
     "react",
     "react-component",
