@@ -56,7 +56,7 @@
 	  React.createElement(TaggedInput, {
 	    autofocus: true, 
 	    backspaceDeletesWord: true, 
-	    placeholder: 'Name Your favorite npm modules'}
+	    placeholder: 'Name some fruits'}
 	  ),
 	  mountPoint );
 
@@ -85,9 +85,9 @@
 	      p = self.props;
 
 	    return (
-	      React.DOM.div({className: "tag"}, 
-	        React.DOM.div({className: "tag-text"}, p.item), 
-	        React.DOM.div({className: "remove", 
+	      React.createElement("div", {className: "tag"}, 
+	        React.createElement("div", {className: "tag-text"}, p.item), 
+	        React.createElement("div", {className: "remove", 
 	          onClick: p.onRemove}, 
 	          '\u274C'
 	        )
@@ -137,7 +137,7 @@
 
 	    for (i = 0 ; i < s.tags.length; i++) {
 	      tagComponents.push(
-	        TagComponent({
+	        React.createElement(TagComponent, {
 	          item: s.tags[i], 
 	          itemIndex: i, 
 	          onRemove: self._handleRemoveTag.bind(this, i)}
@@ -146,7 +146,7 @@
 	    }
 
 	    var input = (
-	      React.DOM.input({type: "text", 
+	      React.createElement("input", {type: "text", 
 	        className: "tagged-input", 
 	        ref: "input", 
 	        onKeyUp: this._handleKeyUp, 
@@ -158,7 +158,7 @@
 	    );
 
 	    return (
-	      React.DOM.div({className: classes, 
+	      React.createElement("div", {className: classes, 
 	        onClick: self._handleClickOnWrapper}, 
 	        tagComponents, 
 	        input

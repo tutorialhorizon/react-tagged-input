@@ -22,6 +22,8 @@ module.exports = {
       ]
     },
     progress: true,
-    keepalive: true
+    keepalive: true,
+    watch: true,
+    watchDelay: 3000
   }
 };
