@@ -10,5 +10,6 @@ React.render(
   <TaggedInput
     autofocus={true}
     backspaceDeletesWord={true}
+    placeholder={'Name your favorite npm modules'}
   />,
   mountPoint );

@@ -55,7 +55,8 @@
 	React.render(
 	  React.createElement(TaggedInput, {
 	    autofocus: true, 
-	    backspaceDeletesWord: true}
+	    backspaceDeletesWord: true, 
+	    placeholder: 'Name Your favorite npm modules'}
 	  ),
 	  mountPoint );
 
@@ -104,7 +105,8 @@
 	    onEnter: React.PropTypes.func,
 	    unique: React.PropTypes.bool,
 	    autofocus: React.PropTypes.bool,
-	    backspaceDeletesWord: React.PropTypes.bool
+	    backspaceDeletesWord: React.PropTypes.bool,
+	    placeholder: React.PropTypes.string
 	  },
 
 	  getInitialState: function () {
@@ -120,10 +122,15 @@
 
 	    var tagComponents = [],
 	      classes = 'tagged-input-wrapper',
+	      placeholder,
 	      i;
 
 	    if (p.classes) {
 	      classes += ' ' + p.classes;
+	    }
+
+	    if (s.tags.length === 0) {
+	      placeholder = p.placeholder;
 	    }
 
 	    var TagComponent = DefaultTagComponent;
@@ -145,7 +152,8 @@
 	        onKeyUp: this._handleKeyUp, 
 	        onKeyDown: this._handleKeyDown, 
 	        onChange: this._handleChange, 
-	        value: s.currentInput}
+	        value: s.currentInput, 
+	        placeholder: placeholder}
 	      )
 	    );
 
