@@ -11,6 +11,12 @@
     "react input tagging",
     "react input tags"
   ],
+  "bugs": "https://github.com/tutorialhorizon/react-tagged-input/issues",
+  "homepage": "https://github.com/tutorialhorizon/react-tagged-input/blob/master/README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tutorialhorizon/react-tagged-input.git"
+  },
   "dependencies": {
     "react": "^0.12.1"
   },

@@ -7,7 +7,7 @@ See the component proptypes in the src/ directory any more options.
 More docs and features are on the way. Pull requests are welcome.
 
 ---
-Install
+### Install
 
 ```sh
 npm install react-tagged-input
@@ -15,9 +15,11 @@ npm install react-tagged-input
 
 ---
 
-##Usage
+### Usage
 
-Space and comma act as the default delimiters.
+To make give this component a proper look and feel, you will want to include the [these styles](https://github.com/tutorialhorizon/react-tagged-input/blob/master/examples/index.css) and namespace them appropriately using the `classes` property as shown below to customize them as per your liking.
+
+Space and comma act as the default delimiters for when the user types.
 
 ```js
 var React = require('react'),
@@ -37,8 +39,6 @@ React.render(
   />,
   mountPoint );
 ```
-
-You will also want to include the [these styles](https://github.com/tutorialhorizon/react-tagged-input/blob/master/examples/index.css) and namespace them appropriately using the `classes` property as shown above to custom style them.
 
 
 ---
