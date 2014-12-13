@@ -197,14 +197,14 @@ var TaggedInput = React.createClass({
           s.tags.push(tagText.trim());
           self.setState({currentInput: ''});
           if (p.onAddTag) {
-            p.onAddTag(enteredValue);
+            p.onAddTag(tagText);
           }
         }
       } else {
         s.tags.push(tagText.trim());
         self.setState({currentInput: ''});
         if (p.onAddTag) {
-          p.onAddTag(enteredValue);
+          p.onAddTag(tagText);
         }
       }
     }
