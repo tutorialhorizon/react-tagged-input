@@ -31,6 +31,7 @@ React.render(
     autofocus={true} // Gives the component focus after it mounts
     backspaceDeletesWord={true} // false deletes one character at a time
     placeholder={'Your favorite npm modules'}
+    tags={['javascript', 'react']} // pre-assigned tags
     onEnter={/*function*/}
     onAddTag={/*function*/} // argument - tag that was added
     onRemoveTag={/*function*/} // argument - tag that got removed
