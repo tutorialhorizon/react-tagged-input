@@ -127,6 +127,9 @@ var TaggedInput = React.createClass({
       case KEY_CODES.ENTER:
         if (s.currentInput) {
           s.tags.push(s.currentInput.trim());
+          if (p.onAddTag) {
+            p.onAddTag(s.tags[s.tags.length-1]);
+          }
           self.setState({
             currentInput: ''
           }, function () {

@@ -52,13 +52,19 @@
 	  TaggedInput = __webpack_require__(1),
 	  mountPoint = document.querySelector('body');
 
+
+	function tagAdded (tag) {
+	  console.log(tag);
+	}
+
 	React.render(
 	  React.createElement(TaggedInput, {
 	    autofocus: true, 
 	    backspaceDeletesWord: true, 
-	    placeholder: 'Name some fruits'}
+	    placeholder: 'Name some fruits', 
+	    onAddTag: tagAdded}
 	  ),
-	  mountPoint );
+	mountPoint );
 
 
 /***/ },
@@ -194,6 +200,9 @@
 	      case KEY_CODES.ENTER:
 	        if (s.currentInput) {
 	          s.tags.push(s.currentInput.trim());
+	          if (p.onAddTag) {
+	            p.onAddTag(s.tags[s.tags.length-1]);
+	          }
 	          self.setState({
 	            currentInput: ''
 	          }, function () {
@@ -264,14 +273,14 @@
 	          s.tags.push(tagText.trim());
 	          self.setState({currentInput: ''});
 	          if (p.onAddTag) {
-	            p.onAddTag(enteredValue);
+	            p.onAddTag(tagText);
 	          }
 	        }
 	      } else {
 	        s.tags.push(tagText.trim());
 	        self.setState({currentInput: ''});
 	        if (p.onAddTag) {
-	          p.onAddTag(enteredValue);
+	          p.onAddTag(tagText);
 	        }
 	      }
 	    }
