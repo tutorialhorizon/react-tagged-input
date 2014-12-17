@@ -3,6 +3,7 @@
  */
 
 var React = require('react');
+var joinClasses = require('react/lib/joinClasses');
 
 var delimiters = [' ', ','];
 
@@ -14,15 +15,14 @@ var KEY_CODES = {
 var DefaultTagComponent = React.createClass({
 
   render: function() {
-    var self = this,
-      p = self.props;
+    var self = this, p = self.props;
 
     return (
-      <div className='tag'>
-        <div className='tag-text'>{p.item}</div>
-        <div className='remove'
+      <div className={joinClasses("tag", this.props.classes)}>
+        <div className="tag-text">{p.item}</div>
+        <div className="remove"
           onClick={p.onRemove}>
-          {'\u274C'}
+          {"\u274C"}
         </div>
       </div>
     );
@@ -54,7 +54,7 @@ var TaggedInput = React.createClass({
     var self = this, s = self.state, p = self.props;
 
     var tagComponents = [],
-      classes = 'tagged-input-wrapper',
+      classes = "tagged-input-wrapper",
       placeholder,
       i;
 
@@ -74,14 +74,15 @@ var TaggedInput = React.createClass({
           item={s.tags[i]}
           itemIndex={i}
           onRemove={self._handleRemoveTag.bind(this, i)}
+          classes={p.unique && (i === s.duplicateIndex) ? 'duplicate' : ''}
         />
       );
     }
 
     var input = (
-      <input type='text'
+      <input type="text"
         className="tagged-input"
-        ref='input'
+        ref="input"
         onKeyUp={this._handleKeyUp}
         onKeyDown={this._handleKeyDown}
         onChange={this._handleChange}
@@ -111,11 +112,20 @@ var TaggedInput = React.createClass({
     var self = this, s = self.state, p = self.props;
 
     var removedItems = s.tags.splice(index, 1);
+    var duplicateIndex;
 
-    if (p.onRemoveTag) {
-      p.onRemoveTag(removedItems[0]);
+    if (s.duplicateIndex) {
+      self.setState({duplicateIndex: null}, function () {
+        if (p.onRemoveTag) {
+          p.onRemoveTag(removedItems[0]);
+        }
+      });
+    } else {
+      if (p.onRemoveTag) {
+        p.onRemoveTag(removedItems[0]);
+      }
+      self.forceUpdate();
     }
-    self.forceUpdate();
   },
 
   _handleKeyUp: function (e) {
@@ -126,13 +136,7 @@ var TaggedInput = React.createClass({
     switch (e.keyCode) {
       case KEY_CODES.ENTER:
         if (s.currentInput) {
-          s.tags.push(s.currentInput.trim());
-          if (p.onAddTag) {
-            p.onAddTag(s.tags[s.tags.length-1]);
-          }
-          self.setState({
-            currentInput: ''
-          }, function () {
+          self._validateAndTag(s.currentInput, function (status) {
             if (p.onEnter) {
               p.onEnter(e, s.tags);
             }
@@ -157,7 +161,8 @@ var TaggedInput = React.createClass({
           newCurrentInput = p.backspaceDeletesWord ? '': poppedValue;
 
           this.setState({
-            currentInput: newCurrentInput
+            currentInput: newCurrentInput,
+            duplicateIndex: null
           });
           if (p.onRemoveTag) {
             p.onRemoveTag(poppedValue);
@@ -183,32 +188,50 @@ var TaggedInput = React.createClass({
     }
   },
 
-  _isUnique: function (tagText) {
-    return (this.state.tags.indexOf(tagText) === -1);
-  },
-
   _handleClickOnWrapper: function (e) {
     this.refs.input.getDOMNode().focus();
   },
 
-  _validateAndTag: function (tagText) {
+  _validateAndTag: function (tagText, callback) {
     var self = this, s = self.state, p = self.props;
+    var duplicateIndex;
+    var trimmedText;
 
     if (tagText && tagText.length > 0) {
+      trimmedText = tagText.trim();
       if (s.unique) {
-        if (self._isUnique(tagText)) {
-          s.tags.push(tagText.trim());
-          self.setState({currentInput: ''});
+        duplicateIndex = this.state.tags.indexOf(trimmedText);
+
+        if (duplicateIndex === -1) {
+          s.tags.push(trimmedText);
+          self.setState({
+            currentInput: '',
+            duplicateIndex: null
+          }, function () {
+            if (p.onAddTag) {
+              p.onAddTag(tagText);
+            }
+            if (callback) {
+              callback(true);
+            }
+          });
+        } else {
+          self.setState({duplicateIndex: duplicateIndex}, function () {
+            if (callback) {
+              callback(false);
+            }
+          });
+        }
+      } else {
+        s.tags.push(trimmedText);
+        self.setState({currentInput: ''}, function () {
           if (p.onAddTag) {
             p.onAddTag(tagText);
           }
-        }
-      } else {
-        s.tags.push(tagText.trim());
-        self.setState({currentInput: ''});
-        if (p.onAddTag) {
-          p.onAddTag(tagText);
-        }
+          if (callback) {
+            callback(true);
+          }
+        });
       }
     }
   },
