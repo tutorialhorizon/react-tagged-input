@@ -23,6 +23,10 @@
   margin-right: 2px;
 }
 
+.tagged-input-wrapper .tag.duplicate {
+  background: #FFDB7B;
+}
+
 .tagged-input-wrapper .tag .remove {
   color: #a0a0a0;
   padding: 0px 4px;

@@ -17,5 +17,6 @@ React.render(
     backspaceDeletesWord={true}
     placeholder={'Name some fruits'}
     onAddTag={tagAdded}
+    unique={true}
   />,
 mountPoint );
