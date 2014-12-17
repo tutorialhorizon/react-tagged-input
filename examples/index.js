@@ -186,11 +186,22 @@
 	    var self = this, s = self.state, p = self.props;
 
 	    var removedItems = s.tags.splice(index, 1);
+	    var duplicateIndex;
 
-	    if (p.onRemoveTag) {
-	      p.onRemoveTag(removedItems[0]);
+	    if (s.duplicateIndex) {
+	      self.setState({duplicateIndex: null}, function () {
+	        if (p.onRemoveTag) {
+	          p.onRemoveTag(removedItems[0]);
+	        }
+	      });
+	    } else {
+	      if (p.onRemoveTag) {
+	        p.onRemoveTag(removedItems[0]);
+	      }
+	      self.forceUpdate();
 	    }
-	    self.forceUpdate();
+
+
 	  },
 
 	  _handleKeyUp: function (e) {
