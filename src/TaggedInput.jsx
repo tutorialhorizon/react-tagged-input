@@ -20,7 +20,7 @@ var DefaultTagComponent = React.createClass({
       <div className={joinClasses("tag", p.classes)}>
         <div className="tag-text">{p.item}</div>
         <div className="remove" onClick={p.onRemove}>
-                {this.props.removeTagLabel}
+          {this.props.removeTagLabel}
         </div>
       </div>
     );
@@ -36,7 +36,8 @@ var TaggedInput = React.createClass({
     unique: React.PropTypes.bool,
     autofocus: React.PropTypes.bool,
     backspaceDeletesWord: React.PropTypes.bool,
-    placeholder: React.PropTypes.string
+    placeholder: React.PropTypes.string,
+    removeTagLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object])
   },
 
   getInitialState: function () {
