@@ -9,8 +9,7 @@ var delimiters = [' ', ','];
 
 var KEY_CODES = {
   ENTER: 13,
-  BACKSPACE: 8,
-  SPACE: 32
+  BACKSPACE: 8
 };
 
 var DefaultTagComponent = React.createClass({
