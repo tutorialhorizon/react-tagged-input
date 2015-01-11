@@ -5,7 +5,6 @@
 var React = require('react');
 var joinClasses = require('react/lib/joinClasses');
 
-var delimiters = [' ', ','];
 
 var KEY_CODES = {
   ENTER: 13,
@@ -37,7 +36,19 @@ var TaggedInput = React.createClass({
     autofocus: React.PropTypes.bool,
     backspaceDeletesWord: React.PropTypes.bool,
     placeholder: React.PropTypes.string,
-    removeTagLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object])
+    removeTagLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object]),
+    delimiters: React.PropTypes.arrayOf(function (props, propName, componentName) {
+      if (typeof props[propName] !== 'string' || props[propName].length !== 1) {
+        return new Error('TaggedInput prop delimiters must be an array of 1 character strings')
+      }
+    })
+  },
+
+  getDefaultProps: function () {
+    return {
+      delimiters: [' ', ',']
+    }
+
   },
 
   getInitialState: function () {
@@ -179,7 +190,7 @@ var TaggedInput = React.createClass({
       lastChar = value.charAt(value.length - 1),
       tagText = value.substring(0, value.length - 1);
 
-    if (delimiters.indexOf(lastChar) !== -1) {
+    if (this.props.delimiters.indexOf(lastChar) !== -1) {
       self._validateAndTag(tagText);
     } else {
       this.setState({
