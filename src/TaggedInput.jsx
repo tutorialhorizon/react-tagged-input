@@ -41,12 +41,14 @@ var TaggedInput = React.createClass({
       if (typeof props[propName] !== 'string' || props[propName].length !== 1) {
         return new Error('TaggedInput prop delimiters must be an array of 1 character strings')
       }
-    })
+    }),
+    tagOnBlur: React.PropTypes.bool
   },
 
   getDefaultProps: function () {
     return {
-      delimiters: [' ', ',']
+      delimiters: [' ', ','],
+      tagOnBlur: false
     }
 
   },
@@ -98,6 +100,7 @@ var TaggedInput = React.createClass({
         onKeyUp={this._handleKeyUp}
         onKeyDown={this._handleKeyDown}
         onChange={this._handleChange}
+        onBlur={this._handleBlur}
         value={s.currentInput}
         placeholder={placeholder}>
       </input>
@@ -196,6 +199,15 @@ var TaggedInput = React.createClass({
       this.setState({
         currentInput: e.target.value
       });
+    }
+  },
+
+  _handleBlur: function (e) {
+    if (this.props.tagOnBlur) {
+      var value = e.target.value;
+      if (value) {
+        this._validateAndTag(value)
+      }
     }
   },
 
