@@ -13,16 +13,14 @@ var KEY_CODES = {
 };
 
 var DefaultTagComponent = React.createClass({
-
-  render: function() {
+  render: function () {
     var self = this, p = self.props;
 
     return (
-      <div className={joinClasses("tag", this.props.classes)}>
+      <div className={joinClasses("tag", p.classes)}>
         <div className="tag-text">{p.item}</div>
-        <div className="remove"
-          onClick={p.onRemove}>
-          {"\u274C"}
+        <div className="remove" onClick={p.onRemove}>
+          {this.props.removeTagLabel}
         </div>
       </div>
     );
@@ -31,7 +29,6 @@ var DefaultTagComponent = React.createClass({
 });
 
 var TaggedInput = React.createClass({
-
   propTypes: {
     onAddTag: React.PropTypes.func,
     onRemoveTag: React.PropTypes.func,
@@ -39,7 +36,8 @@ var TaggedInput = React.createClass({
     unique: React.PropTypes.bool,
     autofocus: React.PropTypes.bool,
     backspaceDeletesWord: React.PropTypes.bool,
-    placeholder: React.PropTypes.string
+    placeholder: React.PropTypes.string,
+    removeTagLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object])
   },
 
   getInitialState: function () {
@@ -50,7 +48,7 @@ var TaggedInput = React.createClass({
     };
   },
 
-  render: function() {
+  render: function () {
     var self = this, s = self.state, p = self.props;
 
     var tagComponents = [],
@@ -68,13 +66,15 @@ var TaggedInput = React.createClass({
 
     var TagComponent = DefaultTagComponent;
 
-    for (i = 0 ; i < s.tags.length; i++) {
+    for (i = 0; i < s.tags.length; i++) {
       tagComponents.push(
         <TagComponent
           item={s.tags[i]}
+          key={s.tags[i]}
           itemIndex={i}
           onRemove={self._handleRemoveTag.bind(this, i)}
           classes={p.unique && (i === s.duplicateIndex) ? 'duplicate' : ''}
+          removeTagLabel={p.removeTagLabel || "\u274C"}
         />
       );
     }
@@ -92,15 +92,14 @@ var TaggedInput = React.createClass({
     );
 
     return (
-      <div className={classes}
-        onClick={self._handleClickOnWrapper}>
+      <div className={classes} onClick={self._handleClickOnWrapper}>
         {tagComponents}
         {input}
       </div>
     );
   },
 
-  componentDidMount: function() {
+  componentDidMount: function () {
     var self = this, s = self.state, p = self.props;
 
     if (p.autofocus) {
@@ -142,7 +141,7 @@ var TaggedInput = React.createClass({
             }
           });
         }
-      break;
+        break;
     }
   },
 
@@ -158,7 +157,7 @@ var TaggedInput = React.createClass({
         if (!e.target.value || e.target.value.length < 0) {
           poppedValue = s.tags.pop();
 
-          newCurrentInput = p.backspaceDeletesWord ? '': poppedValue;
+          newCurrentInput = p.backspaceDeletesWord ? '' : poppedValue;
 
           this.setState({
             currentInput: newCurrentInput,
