@@ -37,6 +37,7 @@ React.render(
     onRemoveTag={/*function*/} // argument - tag that got removed
     unique={true} // Whether duplicate entries are allowed
     classes={'my-css-namespace'}
+    removeTagLabel={"\u274C"} // Unicode of a symbol or an Object click to delete tags. Defaults to 'x'
   />,
   mountPoint );
 ```
