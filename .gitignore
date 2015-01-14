@@ -25,3 +25,4 @@ build
 
 .sass-cache
 stylesheets
+examples/index.js
