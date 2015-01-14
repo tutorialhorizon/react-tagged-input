@@ -5,7 +5,6 @@
 var React = require('react');
 var joinClasses = require('react/lib/joinClasses');
 
-var delimiters = [' ', ','];
 
 var KEY_CODES = {
   ENTER: 13,
@@ -37,7 +36,21 @@ var TaggedInput = React.createClass({
     autofocus: React.PropTypes.bool,
     backspaceDeletesWord: React.PropTypes.bool,
     placeholder: React.PropTypes.string,
-    removeTagLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object])
+    removeTagLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object]),
+    delimiters: React.PropTypes.arrayOf(function (props, propName, componentName) {
+      if (typeof props[propName] !== 'string' || props[propName].length !== 1) {
+        return new Error('TaggedInput prop delimiters must be an array of 1 character strings')
+      }
+    }),
+    tagOnBlur: React.PropTypes.bool
+  },
+
+  getDefaultProps: function () {
+    return {
+      delimiters: [' ', ','],
+      tagOnBlur: false
+    }
+
   },
 
   getInitialState: function () {
@@ -69,6 +82,7 @@ var TaggedInput = React.createClass({
     for (i = 0; i < s.tags.length; i++) {
       tagComponents.push(
         <TagComponent
+          key={'tag' + i}
           item={s.tags[i]}
           key={s.tags[i]}
           itemIndex={i}
@@ -86,6 +100,7 @@ var TaggedInput = React.createClass({
         onKeyUp={this._handleKeyUp}
         onKeyDown={this._handleKeyDown}
         onChange={this._handleChange}
+        onBlur={this._handleBlur}
         value={s.currentInput}
         placeholder={placeholder}>
       </input>
@@ -178,12 +193,21 @@ var TaggedInput = React.createClass({
       lastChar = value.charAt(value.length - 1),
       tagText = value.substring(0, value.length - 1);
 
-    if (delimiters.indexOf(lastChar) !== -1) {
+    if (this.props.delimiters.indexOf(lastChar) !== -1) {
       self._validateAndTag(tagText);
     } else {
       this.setState({
         currentInput: e.target.value
       });
+    }
+  },
+
+  _handleBlur: function (e) {
+    if (this.props.tagOnBlur) {
+      var value = e.target.value;
+      if (value) {
+        this._validateAndTag(value)
+      }
     }
   },
 

@@ -19,7 +19,8 @@ npm install react-tagged-input
 
 To make give this component a proper look and feel, you will want to include the [these styles](https://github.com/tutorialhorizon/react-tagged-input/blob/master/examples/index.css) and namespace them appropriately using the `classes` property as shown below to customize them as per your liking.
 
-Space and comma act as the default delimiters for when the user types.
+Space and comma act as the default delimiters for when the user types.  Customise this with the `delimiters` 
+prop, which should be set to an array of 1 character strings.
 
 ```js
 var React = require('react'),
@@ -35,6 +36,7 @@ React.render(
     onEnter={/*function*/}
     onAddTag={/*function*/} // argument - tag that was added
     onRemoveTag={/*function*/} // argument - tag that got removed
+    tagOnBlur={false}          // If true, creates a tag from any text entered when input box loses focus
     unique={true} // Whether duplicate entries are allowed
     classes={'my-css-namespace'}
     removeTagLabel={"\u274C"} // Unicode of a symbol or an Object click to delete tags. Defaults to 'x'
