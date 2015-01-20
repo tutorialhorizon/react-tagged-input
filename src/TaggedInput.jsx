@@ -5,7 +5,6 @@
 var React = require('react');
 var joinClasses = require('react/lib/joinClasses');
 
-
 var KEY_CODES = {
   ENTER: 13,
   BACKSPACE: 8
@@ -19,7 +18,7 @@ var DefaultTagComponent = React.createClass({
       <div className={joinClasses("tag", p.classes)}>
         <div className="tag-text">{p.item}</div>
         <div className="remove" onClick={p.onRemove}>
-          {this.props.removeTagLabel}
+          {p.removeTagLabel}
         </div>
       </div>
     );
@@ -43,6 +42,16 @@ var TaggedInput = React.createClass({
       }
     }),
     tagOnBlur: React.PropTypes.bool
+  },
+
+  getDefaultProps: function () {
+    return {
+      delimiters: [' ', ','],
+      unique: true,
+      autofocus: false,
+      backspaceDeletesWord: true,
+      tagOnBlur: false
+    };
   },
 
   getDefaultProps: function () {
@@ -193,7 +202,7 @@ var TaggedInput = React.createClass({
       lastChar = value.charAt(value.length - 1),
       tagText = value.substring(0, value.length - 1);
 
-    if (this.props.delimiters.indexOf(lastChar) !== -1) {
+    if (p.delimiters.indexOf(lastChar) !== -1) {
       self._validateAndTag(tagText);
     } else {
       this.setState({
