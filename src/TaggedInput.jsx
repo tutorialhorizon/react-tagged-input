@@ -41,7 +41,8 @@ var TaggedInput = React.createClass({
         return new Error('TaggedInput prop delimiters must be an array of 1 character strings')
       }
     }),
-    tagOnBlur: React.PropTypes.bool
+    tagOnBlur: React.PropTypes.bool,	
+    tabIndex: React.PropTypes.number
   },
 
   getDefaultProps: function () {
@@ -103,7 +104,8 @@ var TaggedInput = React.createClass({
         onChange={this._handleChange}
         onBlur={this._handleBlur}
         value={s.currentInput}
-        placeholder={placeholder}>
+        placeholder={placeholder}
+        tabIndex={p.tabIndex}>
       </input>
     );
 
@@ -221,6 +223,15 @@ var TaggedInput = React.createClass({
     var duplicateIndex;
     var trimmedText;
 
+    function updateListenerAndSendCallback() {
+        if (p.onAddTag) {
+            p.onAddTag(tagText);
+        }
+        if (callback) {
+            callback(true);
+        }
+    }
+
     if (tagText && tagText.length > 0) {
       trimmedText = tagText.trim();
       if (s.unique) {
@@ -231,14 +242,7 @@ var TaggedInput = React.createClass({
           self.setState({
             currentInput: '',
             duplicateIndex: null
-          }, function () {
-            if (p.onAddTag) {
-              p.onAddTag(tagText);
-            }
-            if (callback) {
-              callback(true);
-            }
-          });
+          }, updateListenerAndSendCallback());
         } else {
           self.setState({duplicateIndex: duplicateIndex}, function () {
             if (callback) {
@@ -248,14 +252,7 @@ var TaggedInput = React.createClass({
         }
       } else {
         s.tags.push(trimmedText);
-        self.setState({currentInput: ''}, function () {
-          if (p.onAddTag) {
-            p.onAddTag(tagText);
-          }
-          if (callback) {
-            callback(true);
-          }
-        });
+        self.setState({currentInput: ''}, updateListenerAndSendCallback());
       }
     }
   },
@@ -272,7 +269,7 @@ var TaggedInput = React.createClass({
     var self = this, s = this.state, p = this.props;
 
     if (s.currentInput && s.currentInput.length > 0) {
-      return (this.state.tags.concat(s.currentInput));
+      return this.state.tags.concat(s.currentInput);
     } else {
       return this.state.tags;
     }
