@@ -54,14 +54,6 @@ var TaggedInput = React.createClass({
     };
   },
 
-  getDefaultProps: function () {
-    return {
-      delimiters: [' ', ','],
-      tagOnBlur: false
-    }
-
-  },
-
   getInitialState: function () {
     return {
       tags: this.props.tags || [],
