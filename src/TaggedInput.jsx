@@ -187,7 +187,7 @@ var TaggedInput = React.createClass({
             currentInput: newCurrentInput,
             duplicateIndex: null
           });
-          if (p.onRemoveTag) {
+          if (p.onRemoveTag && poppedValue) {
             p.onRemoveTag(poppedValue);
           }
         }
