@@ -223,15 +223,6 @@ var TaggedInput = React.createClass({
     var duplicateIndex;
     var trimmedText;
 
-    function updateListenerAndSendCallback() {
-        if (p.onAddTag) {
-            p.onAddTag(tagText);
-        }
-        if (callback) {
-            callback(true);
-        }
-    }
-
     if (tagText && tagText.length > 0) {
       trimmedText = tagText.trim();
       if (s.unique) {
@@ -242,7 +233,14 @@ var TaggedInput = React.createClass({
           self.setState({
             currentInput: '',
             duplicateIndex: null
-          }, updateListenerAndSendCallback());
+          }, function () {
+            if (p.onAddTag) {
+              p.onAddTag(tagText);
+            }
+            if (callback) {
+              callback(true);
+            }
+          });
         } else {
           self.setState({duplicateIndex: duplicateIndex}, function () {
             if (callback) {
@@ -252,7 +250,14 @@ var TaggedInput = React.createClass({
         }
       } else {
         s.tags.push(trimmedText);
-        self.setState({currentInput: ''}, updateListenerAndSendCallback());
+        self.setState({currentInput: ''}, function () {
+          if (p.onAddTag) {
+            p.onAddTag(tagText);
+          }
+          if (callback) {
+            callback(true);
+          }
+        });
       }
     }
   },
