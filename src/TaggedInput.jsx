@@ -41,7 +41,8 @@ var TaggedInput = React.createClass({
         return new Error('TaggedInput prop delimiters must be an array of 1 character strings')
       }
     }),
-    tagOnBlur: React.PropTypes.bool
+    tagOnBlur: React.PropTypes.bool,	
+    tabIndex: React.PropTypes.number
   },
 
   getDefaultProps: function () {
@@ -52,14 +53,6 @@ var TaggedInput = React.createClass({
       backspaceDeletesWord: true,
       tagOnBlur: false
     };
-  },
-
-  getDefaultProps: function () {
-    return {
-      delimiters: [' ', ','],
-      tagOnBlur: false
-    }
-
   },
 
   getInitialState: function () {
@@ -111,7 +104,8 @@ var TaggedInput = React.createClass({
         onChange={this._handleChange}
         onBlur={this._handleBlur}
         value={s.currentInput}
-        placeholder={placeholder}>
+        placeholder={placeholder}
+        tabIndex={p.tabIndex}>
       </input>
     );
 
@@ -280,7 +274,7 @@ var TaggedInput = React.createClass({
     var self = this, s = this.state, p = this.props;
 
     if (s.currentInput && s.currentInput.length > 0) {
-      return (this.state.tags.concat(s.currentInput));
+      return this.state.tags.concat(s.currentInput);
     } else {
       return this.state.tags;
     }
