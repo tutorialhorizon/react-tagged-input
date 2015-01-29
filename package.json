@@ -1,7 +1,7 @@
 {
   "name": "react-tagged-input",
   "author": "Tutorialhorizon team",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A custom input field to enter tags",
   "scripts": {},
   "main": "./src/TaggedInput.jsx",
