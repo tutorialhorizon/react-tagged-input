@@ -16,7 +16,7 @@ var DefaultTagComponent = React.createClass({
 
     return (
       <div className={joinClasses("tag", p.classes)}>
-        <div className="tag-text">{p.item}</div>
+        <div className="tag-text" onClick={p.onEdit}>{p.item}</div>
         <div className="remove" onClick={p.onRemove}>
           {p.removeTagLabel}
         </div>
@@ -41,7 +41,7 @@ var TaggedInput = React.createClass({
         return new Error('TaggedInput prop delimiters must be an array of 1 character strings')
       }
     }),
-    tagOnBlur: React.PropTypes.bool,	
+    tagOnBlur: React.PropTypes.bool,  
     tabIndex: React.PropTypes.number
   },
 
@@ -89,6 +89,7 @@ var TaggedInput = React.createClass({
           key={s.tags[i]}
           itemIndex={i}
           onRemove={self._handleRemoveTag.bind(this, i)}
+          onEdit={self._handleEditTag.bind(this, i)}
           classes={p.unique && (i === s.duplicateIndex) ? 'duplicate' : ''}
           removeTagLabel={p.removeTagLabel || "\u274C"}
         />
@@ -129,7 +130,6 @@ var TaggedInput = React.createClass({
     var self = this, s = self.state, p = self.props;
 
     var removedItems = s.tags.splice(index, 1);
-    var duplicateIndex;
 
     if (s.duplicateIndex) {
       self.setState({duplicateIndex: null}, function () {
@@ -142,6 +142,26 @@ var TaggedInput = React.createClass({
         p.onRemoveTag(removedItems[0]);
       }
       self.forceUpdate();
+    }
+  },
+
+  _handleEditTag: function (index) {
+    var self = this, s = self.state, p = self.props;
+
+    var removedItems = s.tags.splice(index, 1);
+
+    if (s.duplicateIndex) {
+      self.setState({duplicateIndex: null, currentInput: removedItems[0]}, function () {
+        if (p.onRemoveTag) {
+          p.onRemoveTag(removedItems[0]);
+        }
+      });
+    } else {
+    self.setState({currentInput: removedItems[0]}, function () {
+      if (p.onRemoveTag) {
+        p.onRemoveTag(removedItems[0]);
+      }
+    });
     }
   },
 
