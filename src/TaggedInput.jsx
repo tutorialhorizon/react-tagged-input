@@ -157,11 +157,11 @@ var TaggedInput = React.createClass({
         }
       });
     } else {
-    self.setState({currentInput: removedItems[0]}, function () {
-      if (p.onRemoveTag) {
-        p.onRemoveTag(removedItems[0]);
-      }
-    });
+      self.setState({currentInput: removedItems[0]}, function () {
+        if (p.onRemoveTag) {
+          p.onRemoveTag(removedItems[0]);
+        }
+      });
     }
   },
 
