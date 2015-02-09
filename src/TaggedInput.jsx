@@ -57,7 +57,7 @@ var TaggedInput = React.createClass({
       onBeforeAddTag: function (tag) {
         return true;
       },
-      onBeforeRemoveTag: function (tag) {
+      onBeforeRemoveTag: function (index) {
         return true;
       }
     };
