@@ -142,20 +142,22 @@ var TaggedInput = React.createClass({
   _handleRemoveTag: function (index) {
     var self = this, s = self.state, p = self.props;
 
-    var removedItems = s.tags.splice(index, 1);
-    var duplicateIndex;
+    if (p.onBeforeRemoveTag(index)) {
+      var removedItems = s.tags.splice(index, 1);
+      var duplicateIndex;
 
-    if (s.duplicateIndex) {
-      self.setState({duplicateIndex: null}, function () {
+      if (s.duplicateIndex) {
+        self.setState({duplicateIndex: null}, function () {
+          if (p.onRemoveTag) {
+            p.onRemoveTag(removedItems[0]);
+          }
+        });
+      } else {
         if (p.onRemoveTag) {
           p.onRemoveTag(removedItems[0]);
         }
-      });
-    } else {
-      if (p.onRemoveTag) {
-        p.onRemoveTag(removedItems[0]);
+        self.forceUpdate();
       }
-      self.forceUpdate();
     }
   },
 
@@ -243,7 +245,9 @@ var TaggedInput = React.createClass({
         duplicateIndex = this.state.tags.indexOf(trimmedText);
 
         if (duplicateIndex === -1) {
-          s.tags.push(trimmedText);
+          if (p.onBeforeAddTag(trimmedText)) {
+            s.tags.push(trimmedText);
+          }
           self.setState({
             currentInput: '',
             duplicateIndex: null
@@ -263,7 +267,9 @@ var TaggedInput = React.createClass({
           });
         }
       } else {
-        s.tags.push(trimmedText);
+        if (p.onBeforeAddTag(trimmedText)) {
+          s.tags.push(trimmedText);
+        }
         self.setState({currentInput: ''}, function () {
           if (p.onAddTag) {
             p.onAddTag(tagText);
