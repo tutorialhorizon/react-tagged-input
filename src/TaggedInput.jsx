@@ -28,7 +28,9 @@ var DefaultTagComponent = React.createClass({
 
 var TaggedInput = React.createClass({
   propTypes: {
+    onBeforeAddTag: React.PropTypes.func,
     onAddTag: React.PropTypes.func,
+    onBeforeRemoveTag: React.PropTypes.func,
     onRemoveTag: React.PropTypes.func,
     onEnter: React.PropTypes.func,
     unique: React.PropTypes.bool,
@@ -51,7 +53,13 @@ var TaggedInput = React.createClass({
       unique: true,
       autofocus: false,
       backspaceDeletesWord: true,
-      tagOnBlur: false
+      tagOnBlur: false,
+      onBeforeAddTag: function (tag) {
+        return true;
+      },
+      onBeforeRemoveTag: function (tag) {
+        return true;
+      }
     };
   },
 
