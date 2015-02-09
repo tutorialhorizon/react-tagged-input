@@ -133,6 +133,12 @@ var TaggedInput = React.createClass({
     }
   },
 
+  componentWillReceiveProps: function (nextProps) {
+    this.setState({
+      tags: nextProps.tags
+    })
+  },
+
   _handleRemoveTag: function (index) {
     var self = this, s = self.state, p = self.props;
 
