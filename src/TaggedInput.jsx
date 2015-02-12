@@ -189,16 +189,18 @@ var TaggedInput = React.createClass({
     switch (e.keyCode) {
       case KEY_CODES.BACKSPACE:
         if (!e.target.value || e.target.value.length < 0) {
-          poppedValue = s.tags.pop();
+          if (p.onBeforeRemoveTag(s.tags.length - 1)) {
+            poppedValue = s.tags.pop();
 
-          newCurrentInput = p.backspaceDeletesWord ? '' : poppedValue;
+            newCurrentInput = p.backspaceDeletesWord ? '' : poppedValue;
 
-          this.setState({
-            currentInput: newCurrentInput,
-            duplicateIndex: null
-          });
-          if (p.onRemoveTag && poppedValue) {
-            p.onRemoveTag(poppedValue);
+            this.setState({
+              currentInput: newCurrentInput,
+              duplicateIndex: null
+            });
+            if (p.onRemoveTag && poppedValue) {
+              p.onRemoveTag(poppedValue);
+            }
           }
         }
         break;
