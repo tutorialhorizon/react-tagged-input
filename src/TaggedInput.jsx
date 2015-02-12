@@ -42,7 +42,8 @@ var TaggedInput = React.createClass({
       }
     }),
     tagOnBlur: React.PropTypes.bool,  
-    tabIndex: React.PropTypes.number
+    tabIndex: React.PropTypes.number,
+    editTags: React.PropTypes.bool
   },
 
   getDefaultProps: function () {
@@ -51,7 +52,8 @@ var TaggedInput = React.createClass({
       unique: true,
       autofocus: false,
       backspaceDeletesWord: true,
-      tagOnBlur: false
+      tagOnBlur: false,
+      editTags: false
     };
   },
 
@@ -89,7 +91,7 @@ var TaggedInput = React.createClass({
           key={s.tags[i]}
           itemIndex={i}
           onRemove={self._handleRemoveTag.bind(this, i)}
-          onEdit={self._handleEditTag.bind(this, i)}
+          onEdit={p.editTags ? self._handleEditTag.bind(this, i) : null}
           classes={p.unique && (i === s.duplicateIndex) ? 'duplicate' : ''}
           removeTagLabel={p.removeTagLabel || "\u274C"}
         />
