@@ -39,7 +39,9 @@ React.render(
     tagOnBlur={false}          // If true, creates a tag from any text entered when input box loses focus
     unique={true} // Whether duplicate entries are allowed
     classes={'my-css-namespace'}
-    removeTagLabel={"\u274C"} // Unicode of a symbol or an Object click to delete tags. Defaults to 'x'
+    removeTagLabel={"\u274C"} // Unicode of a symbol or an Object click to delete tags. Defaults to 'x',
+    onBeforeAddTag={function (tagText) {return true;}} // Returning true from this function causes the tag to itself handle adding tags. Return false if you want a parent to pass in updated tags in props.
+    onBeforeRemoveTag={function (tagText) {return true;}} // Returning true causes the tag to itself handle removing tags. Return false if you want a parent to pass in updated tags in props.
   />,
   mountPoint );
 ```
