@@ -16,12 +16,12 @@ var DefaultTagComponent = React.createClass({
 
     return (
       <div className={joinClasses("tag", p.classes)}>
-        <div className="tag-text">{p.item}</div>
+        <div className="tag-text" onClick={p.onEdit}>{p.item}</div>
         <div className="remove" onClick={p.onRemove}>
           {p.removeTagLabel}
         </div>
       </div>
-    );
+      );
   }
 
 });
@@ -43,8 +43,9 @@ var TaggedInput = React.createClass({
         return new Error('TaggedInput prop delimiters must be an array of 1 character strings')
       }
     }),
-    tagOnBlur: React.PropTypes.bool,	
-    tabIndex: React.PropTypes.number
+    tagOnBlur: React.PropTypes.bool,
+    tabIndex: React.PropTypes.number,
+    clickTagToEdit: React.PropTypes.bool
   },
 
   getDefaultProps: function () {
@@ -54,6 +55,7 @@ var TaggedInput = React.createClass({
       autofocus: false,
       backspaceDeletesWord: true,
       tagOnBlur: false,
+      clickTagToEdit: false,
       onBeforeAddTag: function (tag) {
         return true;
       },
@@ -92,37 +94,38 @@ var TaggedInput = React.createClass({
     for (i = 0; i < s.tags.length; i++) {
       tagComponents.push(
         <TagComponent
-          key={'tag' + i}
-          item={s.tags[i]}
-          key={s.tags[i]}
-          itemIndex={i}
-          onRemove={self._handleRemoveTag.bind(this, i)}
-          classes={p.unique && (i === s.duplicateIndex) ? 'duplicate' : ''}
-          removeTagLabel={p.removeTagLabel || "\u274C"}
+        key={'tag' + i}
+        item={s.tags[i]}
+        key={s.tags[i]}
+        itemIndex={i}
+        onRemove={self._handleRemoveTag.bind(this, i)}
+        onEdit={p.clickTagToEdit ? self._handleEditTag.bind(this, i) : null}
+        classes={p.unique && (i === s.duplicateIndex) ? 'duplicate' : ''}
+        removeTagLabel={p.removeTagLabel || "\u274C"}
         />
       );
     }
 
     var input = (
       <input type="text"
-        className="tagged-input"
-        ref="input"
-        onKeyUp={this._handleKeyUp}
-        onKeyDown={this._handleKeyDown}
-        onChange={this._handleChange}
-        onBlur={this._handleBlur}
-        value={s.currentInput}
-        placeholder={placeholder}
-        tabIndex={p.tabIndex}>
+      className="tagged-input"
+      ref="input"
+      onKeyUp={this._handleKeyUp}
+      onKeyDown={this._handleKeyDown}
+      onChange={this._handleChange}
+      onBlur={this._handleBlur}
+      value={s.currentInput}
+      placeholder={placeholder}
+      tabIndex={p.tabIndex}>
       </input>
-    );
+      );
 
     return (
       <div className={classes} onClick={self._handleClickOnWrapper}>
         {tagComponents}
         {input}
       </div>
-    );
+      );
   },
 
   componentDidMount: function () {
@@ -144,7 +147,6 @@ var TaggedInput = React.createClass({
 
     if (p.onBeforeRemoveTag(index)) {
       var removedItems = s.tags.splice(index, 1);
-      var duplicateIndex;
 
       if (s.duplicateIndex) {
         self.setState({duplicateIndex: null}, function () {
@@ -158,6 +160,31 @@ var TaggedInput = React.createClass({
         }
         self.forceUpdate();
       }
+    }
+  },
+
+  _handleEditTag: function (index) {
+    var self = this, s = self.state, p = self.props;
+
+    if (s.currentInput) {
+      var trimmedInput = s.currentInput.trim();
+      if (trimmedInput && (this.state.tags.indexOf(trimmedInput) < 0 || !s.unique)) {
+        this._validateAndTag(s.currentInput);
+      }
+    }
+    var removedItems = s.tags.splice(index, 1);
+    if (s.duplicateIndex) {
+      self.setState({duplicateIndex: null, currentInput: removedItems[0]}, function () {
+        if (p.onRemoveTag) {
+          p.onRemoveTag(removedItems[0]);
+        }
+      });
+    } else {
+      self.setState({currentInput: removedItems[0]}, function () {
+        if (p.onRemoveTag) {
+          p.onRemoveTag(removedItems[0]);
+        }
+      });
     }
   },
 

@@ -37,6 +37,7 @@ React.render(
     onAddTag={/*function*/} // argument - tag that was added
     onRemoveTag={/*function*/} // argument - tag that got removed
     tagOnBlur={false}          // If true, creates a tag from any text entered when input box loses focus
+    clickTagToEdit={false}          // If true, enables tag editing by clicking the tag text
     unique={true} // Whether duplicate entries are allowed
     classes={'my-css-namespace'}
     removeTagLabel={"\u274C"} // Unicode of a symbol or an Object click to delete tags. Defaults to 'x',
