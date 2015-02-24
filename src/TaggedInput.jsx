@@ -68,7 +68,6 @@ var TaggedInput = React.createClass({
   getInitialState: function () {
     return {
       tags: this.props.tags || [],
-      unique: this.props.unique || true,
       currentInput: null
     };
   },
@@ -94,29 +93,28 @@ var TaggedInput = React.createClass({
     for (i = 0; i < s.tags.length; i++) {
       tagComponents.push(
         <TagComponent
-        key={'tag' + i}
-        item={s.tags[i]}
-        key={s.tags[i]}
-        itemIndex={i}
-        onRemove={self._handleRemoveTag.bind(this, i)}
-        onEdit={p.clickTagToEdit ? self._handleEditTag.bind(this, i) : null}
-        classes={p.unique && (i === s.duplicateIndex) ? 'duplicate' : ''}
-        removeTagLabel={p.removeTagLabel || "\u274C"}
+          key={'tag' + i}
+          item={s.tags[i]}
+          itemIndex={i}
+          onRemove={self._handleRemoveTag.bind(this, i)}
+          onEdit={p.clickTagToEdit ? self._handleEditTag.bind(this, i) : null}
+          classes={p.unique && (i === s.duplicateIndex) ? 'duplicate' : ''}
+          removeTagLabel={p.removeTagLabel || "\u274C"}
         />
       );
     }
 
     var input = (
       <input type="text"
-      className="tagged-input"
-      ref="input"
-      onKeyUp={this._handleKeyUp}
-      onKeyDown={this._handleKeyDown}
-      onChange={this._handleChange}
-      onBlur={this._handleBlur}
-      value={s.currentInput}
-      placeholder={placeholder}
-      tabIndex={p.tabIndex}>
+        className="tagged-input"
+        ref="input"
+        onKeyUp={this._handleKeyUp}
+        onKeyDown={this._handleKeyDown}
+        onChange={this._handleChange}
+        onBlur={this._handleBlur}
+        value={s.currentInput}
+        placeholder={placeholder}
+        tabIndex={p.tabIndex}>
       </input>
       );
 
@@ -168,7 +166,7 @@ var TaggedInput = React.createClass({
 
     if (s.currentInput) {
       var trimmedInput = s.currentInput.trim();
-      if (trimmedInput && (this.state.tags.indexOf(trimmedInput) < 0 || !s.unique)) {
+      if (trimmedInput && (this.state.tags.indexOf(trimmedInput) < 0 || !p.unique)) {
         this._validateAndTag(s.currentInput);
       }
     }
@@ -270,7 +268,7 @@ var TaggedInput = React.createClass({
 
     if (tagText && tagText.length > 0) {
       trimmedText = tagText.trim();
-      if (s.unique) {
+      if (p.unique) {
         duplicateIndex = this.state.tags.indexOf(trimmedText);
 
         if (duplicateIndex === -1) {
