@@ -33,7 +33,7 @@ var TaggedInput = React.createClass({
     onBeforeRemoveTag: React.PropTypes.func,
     onRemoveTag: React.PropTypes.func,
     onEnter: React.PropTypes.func,
-    unique: React.PropTypes.bool,
+    unique: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.func]),
     autofocus: React.PropTypes.bool,
     backspaceDeletesWord: React.PropTypes.bool,
     placeholder: React.PropTypes.string,
@@ -269,7 +269,13 @@ var TaggedInput = React.createClass({
     if (tagText && tagText.length > 0) {
       trimmedText = tagText.trim();
       if (p.unique) {
-        duplicateIndex = this.state.tags.indexOf(trimmedText);
+
+        // not a boolean, it's a function
+        if (typeof p.unique === 'function') {
+          duplicateIndex = p.unique(this.state.tags, trimmedText);
+        } else {
+          duplicateIndex = this.state.tags.indexOf(trimmedText);
+        }
 
         if (duplicateIndex === -1) {
           if (p.onBeforeAddTag(trimmedText)) {

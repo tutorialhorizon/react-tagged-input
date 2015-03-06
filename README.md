@@ -38,7 +38,7 @@ React.render(
     onRemoveTag={/*function*/} // argument - tag that got removed
     tagOnBlur={false}          // If true, creates a tag from any text entered when input box loses focus
     clickTagToEdit={false}          // If true, enables tag editing by clicking the tag text
-    unique={true} // Whether duplicate entries are allowed
+    unique={true} // Whether duplicate entries are allowed, or a callback
     classes={'my-css-namespace'}
     removeTagLabel={"\u274C"} // Unicode of a symbol or an Object click to delete tags. Defaults to 'x',
     onBeforeAddTag={function (tagText) {return true;}} // Returning true from this function causes the tag to itself handle adding tags. Return false if you want a parent to pass in updated tags in props.
@@ -47,6 +47,11 @@ React.render(
   mountPoint );
 ```
 
+#### Unique Callback
+
+If the unique property is a function it will be called to obtain the duplicate index. The callback will receive the array of
+current tags and the new tag, it will return the index of the duplicate tag, or -1 if there is no duplicate. This can be used
+to do custom comparisons for uniqueness.
 
 ### API
 
