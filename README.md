@@ -48,6 +48,20 @@ React.render(
 ```
 
 
+### API
+
+#### getTags
+
+Retrieves the tags as an array.
+
+#### getEnteredTest
+
+Retrieves the text from the input before it is entered as a tag.
+
+#### getAllValues
+
+Retrieves the tags as an array with input text concatenated if it exists.
+
 ---
 ###Dev
 
