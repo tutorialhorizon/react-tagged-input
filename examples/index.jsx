@@ -3,9 +3,8 @@
  */
 
 var React = require('react'),
-  TaggedInput = require('../src/TaggedInput.jsx'),
+  TaggedInput = require('../dist/TaggedInput.js'),
   mountPoint = document.querySelector('body');
-
 
 function tagAdded (tag) {
   console.log(tag);
