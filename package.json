@@ -1,7 +1,7 @@
 {
   "name": "react-tagged-input",
   "author": "Tutorialhorizon team",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "A custom input field to enter tags",
   "license": "MIT",
   "scripts": {
