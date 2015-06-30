@@ -37,6 +37,7 @@ var TaggedInput = React.createClass({displayName: "TaggedInput",
     autofocus: React.PropTypes.bool,
     backspaceDeletesWord: React.PropTypes.bool,
     placeholder: React.PropTypes.string,
+    tags: React.PropTypes.arrayOf(React.PropTypes.any),
     removeTagLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object]),
     delimiters: React.PropTypes.arrayOf(function (props, propName, componentName) {
       if (typeof props[propName] !== 'string' || props[propName].length !== 1) {
@@ -67,7 +68,7 @@ var TaggedInput = React.createClass({displayName: "TaggedInput",
 
   getInitialState: function () {
     return {
-      tags: this.props.tags || [],
+      tags: (this.props.tags || []).slice(0),
       currentInput: null
     };
   },

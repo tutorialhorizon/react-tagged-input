@@ -3,6 +3,7 @@
   "author": "Tutorialhorizon team",
   "version": "0.0.13",
   "description": "A custom input field to enter tags",
+  "license": "MIT",
   "scripts": {
     "dev": "grunt dev",
     "build": "grunt build"
@@ -21,7 +22,9 @@
     "url": "https://github.com/tutorialhorizon/react-tagged-input.git"
   },
   "browserify": {
-    "transform": ["reactify"]
+    "transform": [
+      "reactify"
+    ]
   },
   "peerDependencies": {
     "react": ">=0.12.1 <0.14"
@@ -33,6 +36,7 @@
     "grunt-react": "^0.12.2",
     "grunt-webpack": "^1.0.8",
     "jsx-loader": "^0.12.2",
+    "node-libs-browser": "^0.5.2",
     "react": ">=0.12.1 <0.14",
     "webpack": "^1.4.13",
     "webpack-dev-server": "^1.6.6"
