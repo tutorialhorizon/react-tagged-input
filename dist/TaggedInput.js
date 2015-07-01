@@ -144,21 +144,23 @@ var TaggedInput = React.createClass({displayName: "TaggedInput",
   _handleRemoveTag: function (index) {
     var self = this, s = self.state, p = self.props;
 
-    if (p.onBeforeRemoveTag(index)) {
-      var removedItems = s.tags.splice(index, 1);
+    if (!p.onBeforeRemoveTag(index)) {
+      return;
+    }
 
-      if (s.duplicateIndex) {
-        self.setState({duplicateIndex: null}, function () {
-          if (p.onRemoveTag) {
-            p.onRemoveTag(removedItems[0]);
-          }
-        });
-      } else {
+    var removedItems = s.tags.splice(index, 1);
+
+    if (s.duplicateIndex) {
+      self.setState({duplicateIndex: null}, function () {
         if (p.onRemoveTag) {
           p.onRemoveTag(removedItems[0]);
         }
-        self.forceUpdate();
+      });
+    } else {
+      if (p.onRemoveTag) {
+        p.onRemoveTag(removedItems[0]);
       }
+      self.forceUpdate();
     }
   },
 
@@ -215,18 +217,20 @@ var TaggedInput = React.createClass({displayName: "TaggedInput",
     switch (e.keyCode) {
       case KEY_CODES.BACKSPACE:
         if (!e.target.value || e.target.value.length < 0) {
-          if (p.onBeforeRemoveTag(s.tags.length - 1)) {
-            poppedValue = s.tags.pop();
+          if (!p.onBeforeRemoveTag(s.tags.length - 1)) {
+            return;
+          }
 
-            newCurrentInput = p.backspaceDeletesWord ? '' : poppedValue;
+          poppedValue = s.tags.pop();
 
-            this.setState({
-              currentInput: newCurrentInput,
-              duplicateIndex: null
-            });
-            if (p.onRemoveTag && poppedValue) {
-              p.onRemoveTag(poppedValue);
-            }
+          newCurrentInput = p.backspaceDeletesWord ? '' : poppedValue;
+
+          this.setState({
+            currentInput: newCurrentInput,
+            duplicateIndex: null
+          });
+          if (p.onRemoveTag && poppedValue) {
+            p.onRemoveTag(poppedValue);
           }
         }
         break;
@@ -279,9 +283,11 @@ var TaggedInput = React.createClass({displayName: "TaggedInput",
         }
 
         if (duplicateIndex === -1) {
-          if (p.onBeforeAddTag(trimmedText)) {
-            s.tags.push(trimmedText);
+          if (!p.onBeforeAddTag(trimmedText)) {
+            return;
           }
+
+          s.tags.push(trimmedText);
           self.setState({
             currentInput: '',
             duplicateIndex: null
@@ -301,9 +307,11 @@ var TaggedInput = React.createClass({displayName: "TaggedInput",
           });
         }
       } else {
-        if (p.onBeforeAddTag(trimmedText)) {
-          s.tags.push(trimmedText);
+        if (!p.onBeforeAddTag(trimmedText)) {
+          return;
         }
+
+        s.tags.push(trimmedText);
         self.setState({currentInput: ''}, function () {
           if (p.onAddTag) {
             p.onAddTag(tagText);
