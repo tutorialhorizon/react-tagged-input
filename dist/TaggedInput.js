@@ -137,7 +137,7 @@ var TaggedInput = React.createClass({displayName: "TaggedInput",
 
   componentWillReceiveProps: function (nextProps) {
     this.setState({
-      tags: nextProps.tags
+      tags: (nextProps.tags || []).slice(0)
     })
   },
 
