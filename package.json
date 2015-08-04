@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "grunt dev",
-    "build": "grunt build"
+    "build": "grunt build",
+    "test": "mocha --compilers js:babel/register tests/unit/*.test.js"
   },
   "main": "./dist/TaggedInput.js",
   "keywords": [
@@ -30,12 +31,17 @@
     "react": ">=0.12.1 <0.14"
   },
   "devDependencies": {
+    "babel": "^5.8.20",
+    "chai": "^3.2.0",
     "grunt": "^0.4.5",
     "grunt-cli": "^0.1.13",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-react": "^0.12.2",
     "grunt-webpack": "^1.0.8",
+    "jsdom": "^3.0",
     "jsx-loader": "^0.12.2",
+    "jsx-test": "^0.7.5",
+    "mocha": "^2.2.5",
     "node-libs-browser": "^0.5.2",
     "react": ">=0.12.1 <0.14",
     "webpack": "^1.4.13",
