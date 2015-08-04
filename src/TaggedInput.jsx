@@ -279,9 +279,11 @@ var TaggedInput = React.createClass({
         }
 
         if (duplicateIndex === -1) {
-          if (p.onBeforeAddTag(trimmedText)) {
-            s.tags.push(trimmedText);
+          if (!p.onBeforeAddTag(trimmedText)) {
+            return;
           }
+
+          s.tags.push(trimmedText);
           self.setState({
             currentInput: '',
             duplicateIndex: null
@@ -301,9 +303,11 @@ var TaggedInput = React.createClass({
           });
         }
       } else {
-        if (p.onBeforeAddTag(trimmedText)) {
-          s.tags.push(trimmedText);
+        if (!p.onBeforeAddTag(trimmedText)) {
+          return;
         }
+
+        s.tags.push(trimmedText);
         self.setState({currentInput: ''}, function () {
           if (p.onAddTag) {
             p.onAddTag(tagText);
