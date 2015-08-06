@@ -4,7 +4,7 @@ var sinonChai = require("sinon-chai");
 var expect = chai.expect;
 chai.use(sinonChai);
 var jsxTest = require('jsx-test');
-var TaggedInput = require('../../src/TaggedInput.jsx');
+var TaggedInput = require('../../dist/TaggedInput');
 
 describe('TaggedInput', function() {
 
@@ -75,7 +75,7 @@ describe('TaggedInput', function() {
       ti._handleChange({target: {value: 'two,'} });
 
       expect(onBeforeAddTag.calledWith('two')).to.be.true;
-      expect(onAddTag.calledWith('two')).to.be.true;
+      expect(onAddTag.calledWith('two', ['one', 'two'])).to.be.true;
       expect(onBeforeAddTag.calledBefore(onAddTag)).to.be.true;
     });
 
@@ -108,7 +108,7 @@ describe('TaggedInput', function() {
       ti._handleRemoveTag(1);
 
       expect(onBeforeRemoveTag.calledWith(1)).to.be.true;
-      expect(onRemoveTag.calledWith('two')).to.be.true;
+      expect(onRemoveTag.calledWith('two', ['one'])).to.be.true;
       expect(onBeforeRemoveTag.calledBefore(onRemoveTag)).to.be.true;
     });
 

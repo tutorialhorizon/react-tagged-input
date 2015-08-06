@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "grunt dev",
     "build": "grunt build",
-    "test": "mocha --compilers js:babel/register tests/unit/*.test.js"
+    "test": "grunt build && mocha --compilers js:babel/register tests/unit/*.test.js"
   },
   "main": "./dist/TaggedInput.js",
   "keywords": [
