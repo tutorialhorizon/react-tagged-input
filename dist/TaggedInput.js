@@ -150,12 +150,12 @@ var TaggedInput = React.createClass({displayName: "TaggedInput",
       if (s.duplicateIndex) {
         self.setState({duplicateIndex: null}, function () {
           if (p.onRemoveTag) {
-            p.onRemoveTag(removedItems[0]);
+            p.onRemoveTag(removedItems[0], s.tags);
           }
         });
       } else {
         if (p.onRemoveTag) {
-          p.onRemoveTag(removedItems[0]);
+          p.onRemoveTag(removedItems[0], s.tags);
         }
         self.forceUpdate();
       }
@@ -289,7 +289,7 @@ var TaggedInput = React.createClass({displayName: "TaggedInput",
             duplicateIndex: null
           }, function () {
             if (p.onAddTag) {
-              p.onAddTag(tagText);
+              p.onAddTag(tagText, s.tags);
             }
             if (callback) {
               callback(true);
