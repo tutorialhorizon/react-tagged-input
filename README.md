@@ -1,8 +1,9 @@
 # react-tagged-input
 
 A react component that lets you enter text and converts them to tags.
+Pull requests are welcome.
 
-More docs and features are on the way. Pull requests are welcome.
+[![Build Status](https://travis-ci.org/tutorialhorizon/react-tagged-input.svg)](https://travis-ci.org/tutorialhorizon/react-tagged-input)
 
 ---
 
