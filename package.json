@@ -1,12 +1,13 @@
 {
   "name": "react-tagged-input",
   "author": "Tutorialhorizon team",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "A custom input field to enter tags",
   "license": "MIT",
   "scripts": {
     "dev": "grunt dev",
-    "build": "grunt build",
+    "lint": "grunt jshint",
+    "build": "grunt jshint && grunt build",
     "test": "grunt build && mocha --compilers js:babel/register tests/unit/*.test.js"
   },
   "main": "./dist/TaggedInput.js",
@@ -36,6 +37,7 @@
     "grunt": "^0.4.5",
     "grunt-cli": "^0.1.13",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-jsxhint-babel": "^0.6.1",
     "grunt-react": "^0.12.2",
     "grunt-webpack": "^1.0.8",
     "jsdom": "^3.0",
