@@ -1,12 +1,9 @@
-/**
- * @jsx React.DOM
- */
-
 var React = require('react'),
+  ReactDOM = require('react-dom'),
   TaggedInput = require('../dist/TaggedInput.js'),
-  mountPoint = document.querySelector('body');
+  mountPoint = document.querySelector('#app');
 
-React.render(
+ReactDOM.render(
   <TaggedInput
     autofocus={true}
     backspaceDeletesWord={true}

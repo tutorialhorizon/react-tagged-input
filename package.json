@@ -1,7 +1,7 @@
 {
   "name": "react-tagged-input",
   "author": "Tutorialhorizon team",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "A custom input field to enter tags",
   "license": "MIT",
   "scripts": {
@@ -29,7 +29,7 @@
     ]
   },
   "peerDependencies": {
-    "react": ">=0.12.1 <0.14"
+    "react": ">=0.14.1 < 0.15"
   },
   "devDependencies": {
     "babel": "^5.8.20",
@@ -42,10 +42,11 @@
     "grunt-webpack": "^1.0.8",
     "jsdom": "^3.0",
     "jsx-loader": "^0.12.2",
-    "jsx-test": "^0.7.5",
+    "jsx-test": "^0.8.0",
     "mocha": "^2.2.5",
     "node-libs-browser": "^0.5.2",
-    "react": ">=0.12.1 <0.14",
+    "react": "^0.14.2",
+    "react-dom": "^0.14.2",
     "sinon": "^1.15.4",
     "sinon-chai": "^2.8.0",
     "webpack": "^1.4.13",

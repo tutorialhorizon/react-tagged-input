@@ -44,10 +44,11 @@ Customise this with the `delimiters` prop, which should be set to an array of 1 
 
 ```js
 var React = require('react'),
+  ReactDOM = require('react-dom'),
   TaggedInput = require('react-tagged-input'),
   mountPoint = document.querySelector('body');
 
-React.render(
+ReactDOM.render(
   <TaggedInput
     autofocus={true} // Gives the component focus after it mounts
     backspaceDeletesWord={true} // false deletes one character at a time
