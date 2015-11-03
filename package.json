@@ -29,7 +29,7 @@
     ]
   },
   "peerDependencies": {
-    "react": ">=0.14.1 < 0.15"
+    "react": ">=0.14 < 0.15"
   },
   "devDependencies": {
     "babel": "^5.8.20",
