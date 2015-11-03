@@ -9,7 +9,7 @@ var KEY_CODES = {
 var DefaultTagComponent = React.createClass({displayName: "DefaultTagComponent",
   render: function () {
     var self = this, p = self.props;
-    var className = 'tag' + p.classes ? (' ' + p.classes) : '';
+    var className = 'tag' + (p.classes ? (' ' + p.classes) : '');
 
     return (
       React.createElement("div", {className: className}, 
@@ -130,7 +130,7 @@ module.exports = React.createClass({
     var self = this, s = self.state, p = self.props;
 
     if (p.autofocus) {
-      self.refs.input.getDOMNode().focus();
+      self.refs.input;
     }
   },
 
@@ -247,7 +247,7 @@ module.exports = React.createClass({
   },
 
   _handleClickOnWrapper: function (e) {
-    this.refs.input.getDOMNode().focus();
+    this.refs.input;
   },
 
   _validateAndTag: function (tagText, callback) {
