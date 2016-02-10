@@ -101,6 +101,7 @@ current tags and the new tag to be added. The function should return the index o
 
 #### onEnter
 Type: function
+Called any time enter/return key is pressed. The event is passed as the first argument.
 
 #### onAddTag
 Type: function:
