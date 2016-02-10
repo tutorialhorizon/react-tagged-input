@@ -187,12 +187,11 @@ module.exports = React.createClass({
 
     switch (e.keyCode) {
       case KEY_CODES.ENTER:
-        if (s.currentInput) {
-          self._validateAndTag(s.currentInput, function (status) {
-            if (p.onEnter) {
-              p.onEnter(e, s.tags);
-            }
-          });
+        if (p.onEnter) {
+          p.onEnter(e, s.tags);
+        }
+        if (s.currentInput && ! e.isDefaultPrevented()) {
+          self._validateAndTag(s.currentInput);
         }
         break;
     }
