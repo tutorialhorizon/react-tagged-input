@@ -27,7 +27,7 @@ npm run dev
 
 ### Contributing
 
-If you intend to contribute, make your changes, then do 
+If you intend to contribute, make your changes, then do
 
 ```sh
 npm run build
@@ -64,6 +64,11 @@ ReactDOM.render(
     removeTagLabel={"\u274C"} // Unicode of a symbol or an Object click to delete tags. Defaults to 'x',
     onBeforeAddTag={function (tagText) {return true;}} // Returning true from this function causes the tag to itself handle adding tags. Return false if you want a parent to pass in updated tags in props.
     onBeforeRemoveTag={function (tagText) {return true;}} // Returning true causes the tag to itself handle removing tags. Return false if you want a parent to pass in updated tags in props.
+    tagRootContainerStyle={/*object*/} // Object with root container styles
+    tagContainerStyle={/*object*/} // Object with tag container styles
+    tagTextStyle={/*object*/} // Object with tag text styles
+    tagRemoveStyle={/*object*/} // Object with tag remove styles
+    inputStyle={/*object*/} // Object with tag input styles
   />,
   mountPoint );
 ```
@@ -139,6 +144,26 @@ Returning true from this function causes the Component to continue handle adding
 Type: function
 function (tagText) {return true;}}
 Returning true causes the Component to continue handle removing tags. Return false if you want a parent to pass down updated tags in the props.
+
+#### tagRootContainerStyle
+Type: object
+Override the inline-styles of the tag root container element.
+
+#### tagContainerStyle
+Type: object
+Override the inline-styles of the tag container element.
+
+#### tagTextStyle
+Type: object
+Override the inline-styles of the tag text element.
+
+#### tagRemoveStyle
+Type: object
+Override the inline-styles of the tag remove element.
+
+#### inputStyle
+Type: object
+Override the inline-styles of the tag input element.
 
 ---
 

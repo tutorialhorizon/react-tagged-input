@@ -1,27 +1,24 @@
 'use-strict';
 var React = require('react');
+var TagComponent = require('./TagComponent');
 
 var KEY_CODES = {
   ENTER: 13,
   BACKSPACE: 8
 };
 
-var DefaultTagComponent = React.createClass({displayName: "DefaultTagComponent",
-  render: function () {
-    var self = this, p = self.props;
-    var className = 'tag' + (p.classes ? (' ' + p.classes) : '');
-
-    return (
-      React.createElement("div", {className: className}, 
-        React.createElement("div", {className: "tag-text", onClick: p.onEdit}, p.item), 
-        React.createElement("div", {className: "remove", onClick: p.onRemove}, 
-          p.removeTagLabel
-        )
-      )
-    );
+var styles = {
+  tagRootContainerStyle: {
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: '#dadada',
+    padding: '2px',
+  },
+  inputStyle: {
+    border: 'none',
+    outline: 'none'
   }
-
-});
+}
 
 module.exports = React.createClass({
   displayName: 'TaggedInput',
@@ -45,7 +42,12 @@ module.exports = React.createClass({
     }),
     tagOnBlur: React.PropTypes.bool,
     tabIndex: React.PropTypes.number,
-    clickTagToEdit: React.PropTypes.bool
+    clickTagToEdit: React.PropTypes.bool,
+    tagRootContainerStyle: React.PropTypes.object,
+    tagContainerStyle: React.PropTypes.object,
+    tagTextStyle: React.PropTypes.object,
+    tagRemoveStyle: React.PropTypes.object,
+    inputStyle: React.PropTypes.object
   },
 
   getDefaultProps: function () {
@@ -88,8 +90,6 @@ module.exports = React.createClass({
       placeholder = p.placeholder;
     }
 
-    var TagComponent = DefaultTagComponent;
-
     for (i = 0; i < s.tags.length; i++) {
       tagComponents.push(
         React.createElement(TagComponent, {
@@ -98,8 +98,12 @@ module.exports = React.createClass({
           itemIndex: i, 
           onRemove: self._handleRemoveTag.bind(this, i), 
           onEdit: p.clickTagToEdit ? self._handleEditTag.bind(this, i) : null, 
-          classes: p.unique && (i === s.duplicateIndex) ? 'duplicate' : '', 
-          removeTagLabel: p.removeTagLabel || "\u274C"}
+          duplicated: p.unique && (i === s.duplicateIndex), 
+          removeTagLabel: p.removeTagLabel || "\u274C", 
+          tagContainerStyle: p.tagContainerStyle, 
+          tagTextStyle: p.tagTextStyle, 
+          tagRemoveStyle: p.tagRemoveStyle, 
+          duplicatedColor: p.duplicatedColor}
         )
       );
     }
@@ -107,6 +111,7 @@ module.exports = React.createClass({
     var input = (
       React.createElement("input", {type: "text", 
         className: "tagged-input", 
+        style: Object.assign({}, styles.inputStyle, p.inputStyle || {}), 
         ref: "input", 
         onKeyUp: this._handleKeyUp, 
         onKeyDown: this._handleKeyDown, 
@@ -118,8 +123,10 @@ module.exports = React.createClass({
       )
       );
 
+    var tagRootContainerStyle = Object.assign({}, styles.tagRootContainerStyle , p.tagRootContainerStyle || {});
+
     return (
-      React.createElement("div", {className: classes, onClick: self._handleClickOnWrapper}, 
+      React.createElement("div", {className: classes, style: tagRootContainerStyle, onClick: self._handleClickOnWrapper}, 
         tagComponents, 
         input
       )
@@ -215,7 +222,7 @@ module.exports = React.createClass({
               duplicateIndex: null
             });
             if (p.onRemoveTag && poppedValue) {
-              p.onRemoveTag(poppedValue);
+              p.onRemoveTag(poppedValue, s.tags);
             }
           }
         }
@@ -247,7 +254,7 @@ module.exports = React.createClass({
   },
 
   _handleClickOnWrapper: function (e) {
-    this.refs.input;
+    this.refs.input.focus();
   },
 
   _validateAndTag: function (tagText, callback) {
