@@ -135,7 +135,7 @@ Type: function
 function (tagText) {return true;}}
 Returning true from this function causes the Component to continue handle adding tags. Return false if you want a parent to pass down updated tags in the props.
 
-#### onBeforeAddTag
+#### onBeforeRemoveTag
 Type: function
 function (tagText) {return true;}}
 Returning true causes the Component to continue handle removing tags. Return false if you want a parent to pass down updated tags in the props.
