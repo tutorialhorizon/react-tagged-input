@@ -68,7 +68,7 @@ module.exports = React.createClass({
   getInitialState: function () {
     return {
       tags: (this.props.tags || []).slice(0),
-      currentInput: null
+      currentInput: ''
     };
   },
 
